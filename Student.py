@@ -120,3 +120,8 @@ class Student:
             str: A string containing student information.
         """
         return f"Student ID: {self._student_id}\nName: {self._first_name} {self._last_name}\nEmail: {self._email}\nPhone Number: {self._phone_number}"
+
+if __name__ == "__main__":
+    # Code for testing the Student class
+    student1 = Student(1, "John", "Doe", "john.doe@example.com", "123-456-7890")
+    print(student1)
