@@ -1,4 +1,4 @@
-from student import Student  # Assuming the Student class is defined in a 'student.py' file
+from student import Student
 
 print("Testing Student class; Expecting to not be able to access attribute")
 
