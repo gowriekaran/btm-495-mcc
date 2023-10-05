@@ -1,6 +1,6 @@
 class Submission:
     """
-    Private class for representing submission information.
+    Private class for representing Submission information.
 
     Attributes:
         __studentID (int): The unique identifier for the student.

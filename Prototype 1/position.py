@@ -1,6 +1,6 @@
 class Position:
     """
-    Private class for representing submission information.
+    Private class for representing Position information.
 
     Attributes:
         __Name (str): The name of the position.

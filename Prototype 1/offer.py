@@ -1,6 +1,6 @@
 class Offer:
     """
-    Private class for representing student information.
+    Private class for representing Offer information.
 
     Attributes:
         __details (str): The details of the offer.

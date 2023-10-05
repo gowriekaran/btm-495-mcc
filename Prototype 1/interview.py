@@ -1,6 +1,6 @@
 class Interview:
     """
-    Private class for representing student information.
+    Private class for representing Interview information.
 
     Attributes:
         __date (date): The interview date.

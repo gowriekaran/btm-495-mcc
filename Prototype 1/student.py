@@ -1,6 +1,6 @@
 class Student:
     """
-    Private class for representing student information.
+    Private class for representing Student information.
 
     Attributes:
         __studentID (int): The unique identifier for the student.
