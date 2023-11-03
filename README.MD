@@ -8,6 +8,7 @@ Before you begin, ensure you have the following installed:
 
 - Python (version 3.11.3)
 - Django (version 4.2.7)
+- Node (version 19.9.0)
 
 ## Installation
 
@@ -41,7 +42,13 @@ To use this project on your local machine, follow these steps:
    DATABASE_URL=your_database_url
    ```
 
-5. **Launch the Development Server**
+5. **Launch the Tailwind Development Server**
+
+   ```
+   python manage.py tailwind start
+   ```
+
+6. **Launch the Development Server**
 
    ```
    python manage.py runserver
