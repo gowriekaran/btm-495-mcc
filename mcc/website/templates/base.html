@@ -9,9 +9,115 @@
     {% tailwind_css %}
   </head>
 
-  <body class="bg-[#7A0A0A] font-serif leading-normal tracking-normal">
-    <div class="h-full text-white font-bold">
-      {% block content %} {% endblock %}
+  <body class="bg-MCC-primary font-serif leading-normal tracking-normal">
+    <div class="bg-yellow-300 text-yellow-800 p-4">
+      <div class="container mx-auto">
+        <div class="text-center">
+          <p class="text-lg">
+            The current app is in alpha stage. Disclaimer: This is a work in
+            progress and may contain bugs or incomplete features.
+          </p>
+        </div>
+      </div>
     </div>
+    <nav
+      class="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2 shadow-md shadow-black/5 lg:flex-wrap lg:justify-start lg:py-4"
+      data-te-navbar-ref
+    >
+      <div
+        class="flex w-full flex-wrap items-center justify-between px-2 md:px-3"
+      >
+        <!-- Hamburger button for mobile view -->
+        <button
+          class="block border-0 bg-transparent md:px-2 text-MCC-primary-darkerer hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 md:hidden"
+          type="button"
+          data-te-collapse-init
+          data-te-target="#navbarSupportedContent1"
+          aria-controls="navbarSupportedContent1"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <!-- Hamburger icon -->
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="h-7 w-7"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </button>
+
+        <!-- Collapsible navigation container -->
+        <div
+          class="!visible hidden flex-grow basis-[100%] items-center md:!flex md:basis-auto"
+          id="navbarSupportedContent1"
+          data-te-collapse-item
+        >
+          {% if user.is_authenticated %}
+          <!-- Logo -->
+          <a
+            class="hidden md:flex mr-5 items-center lg:mb-0 lg:mt-0"
+            href="{% url 'home' %}"
+          >
+            <img src="{% static 'images/MCC_logo.webp' %}" alt="MCC Logo" />
+          </a>
+          {% endif %}
+          <!-- Left navigation links -->
+          <ul
+            class="mt-4 md:mt-0 list-style-none mr-auto flex flex-col pl-0 md:flex-row"
+            data-te-navbar-nav-ref
+          >
+            {% if user.is_authenticated %}
+            <!-- Logout link -->
+            <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
+              <a
+                class="text-MCC-primary-darkerer transition duration-200 hover:text-MCC-primary-darkererer hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none md:px-2 [&.active]:text-black/90"
+                href="{% url 'logout' %}"
+                data-te-nav-link-ref
+                >Logout</a
+              >
+            </li>
+            {% else %}
+            <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
+              <a
+                class="text-MCC-primary-darkerer transition duration-200 hover:text-MCC-primary-darkererer hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none md:px-2 [&.active]:text-black/90"
+                href="{% url 'home' %}"
+                data-te-nav-link-ref
+                >Login</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="h-full">{% block content %} {% endblock %}</div>
+    <script>
+      const hamburgerButton = document.querySelector("[data-te-collapse-init]");
+      const navigationContainer = document.querySelector(
+        "[data-te-collapse-item]"
+      );
+
+      hamburgerButton.addEventListener("click", () => {
+        navigationContainer.classList.toggle("hidden");
+      });
+
+      const navigationLinks = document.querySelectorAll(
+        "[data-te-nav-link-ref]"
+      );
+
+      navigationLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          navigationContainer.classList.add("hidden");
+        });
+      });
+    </script>
   </body>
 </html>

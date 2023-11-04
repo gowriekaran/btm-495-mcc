@@ -42,7 +42,14 @@ module.exports = {
     // '../../**/*.py'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "MCC-primary": "#7A0A0A",
+        "MCC-primary-darker": "#6d0909",
+        "MCC-primary-darkerer": "#610808",
+        "MCC-primary-darkererer": "#550707",
+      },
+    },
   },
   plugins: [
     /**
