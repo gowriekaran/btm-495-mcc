@@ -31,7 +31,7 @@ To use this project on your local machine, follow these steps:
 3. **Install Dependencies**
 
    ```
-   pip install -r requirements_windows.txt # On Mac, use requirements_mac.txt
+   pip install -r requirements.txt
    ```
 
 4. **Create a .env File at the Project's Root Directory**
