@@ -756,12 +756,12 @@ select {
   display: flex;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
 .h-full {
   height: 100%;
+}
+
+.h-screen {
+  height: 100vh;
 }
 
 .items-center {
@@ -770,15 +770,6 @@ select {
 
 .justify-center {
   justify-content: center;
-}
-
-.bg-gray-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-.bg-\[\#\#7A0A0A\] {
-  background-color: ##7A0A0A;
 }
 
 .bg-\[\#7A0A0A\] {
