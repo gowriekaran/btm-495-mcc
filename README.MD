@@ -31,7 +31,7 @@ To use this project on your local machine, follow these steps:
 3. **Install Dependencies**
 
    ```
-   pip install -r requirements_windows.txt # On Mac, use requirements_mac.txt
+   pip install -r requirements.txt
    ```
 
 4. **Create a .env File at the Project's Root Directory**
@@ -43,13 +43,19 @@ To use this project on your local machine, follow these steps:
    NPM_BIN_PATH=/usr/local/bin/npm
    ```
 
-5. **Navigate into the MCC directory and launch the Tailwind Development Server**
+5. **Navigate into the MCC directory and install Tailwind**
+
+   ```
+   python manage.py tailwind install
+   ```
+
+6. **Launch the Tailwind Development Server**
 
    ```
    python manage.py tailwind start
    ```
 
-6. **Launch the Development Server**
+7. **Launch the Development Server**
 
    ```
    python manage.py runserver
