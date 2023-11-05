@@ -36,11 +36,13 @@ To use this project on your local machine, follow these steps:
 
 4. **Create a .env File at the Project's Root Directory**
 
-   In the root directory of your project, create a file named .env and define your database URL and NPM Bin Path like this:
+   In the root directory of your project, create a file named .env and define the following variables:
 
    ```
    DATABASE_URL=your_database_url
    NPM_BIN_PATH=/usr/local/bin/npm
+   DEBUG=True
+   ALLOWED_HOSTS=127.0.0.1
    ```
 
 5. **Navigate into the MCC directory and install Tailwind**
@@ -59,4 +61,10 @@ To use this project on your local machine, follow these steps:
 
    ```
    python manage.py runserver
+   ```
+
+8. **If ready for Production, set DEBUG to False and then prepare static files **
+
+   ```
+   python manage.py collectstatic --no-input
    ```

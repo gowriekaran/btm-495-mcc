@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import Position
 
 def home(request):
     if request.method == 'POST':
@@ -27,4 +28,17 @@ def logout_user(request):
 
 @login_required
 def positions(request):
-    return render(request, 'positions.html', {})
+    positions = Position.objects.all()
+    return render(request, 'positions.html', {"positions": positions})
+
+@login_required
+def add_position(request):
+    if request.method == 'POST':
+        name = request.POST['positionName']
+        status = request.POST['positionStatus']
+        description = request.POST['positionDescription']
+
+        position = Position(name=name, description=description, status=status)
+        position.save()
+        messages.success(request, "Position Added!")
+    return redirect('positions')
