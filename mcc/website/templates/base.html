@@ -60,21 +60,31 @@
           id="navbarSupportedContent1"
           data-te-collapse-item
         >
-          {% if user.is_authenticated %}
           <!-- Logo -->
           <a
             class="hidden md:flex mr-5 items-center lg:mb-0 lg:mt-0"
             href="{% url 'home' %}"
           >
-            <img src="{% static 'images/MCC_logo.webp' %}" alt="MCC Logo" />
+            <img
+              src="{% static 'images/MCC_logo_simple.webp' %}"
+              alt="MCC Logo"
+            />
           </a>
-          {% endif %}
           <!-- Left navigation links -->
           <ul
             class="mt-4 md:mt-0 list-style-none mr-auto flex flex-col pl-0 md:flex-row"
             data-te-navbar-nav-ref
           >
             {% if user.is_authenticated %}
+            <!-- Positions link -->
+            <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
+              <a
+                class="text-MCC-primary-darkerer transition duration-200 hover:text-MCC-primary-darkererer hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none md:px-2 [&.active]:text-black/90"
+                href="{% url 'positions' %}"
+                data-te-nav-link-ref
+                >Positions</a
+              >
+            </li>
             <!-- Logout link -->
             <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
               <a
@@ -119,5 +129,32 @@
         });
       });
     </script>
+    <script>
+      function showToast(message) {
+        const toastContainer = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        toast.className =
+          "toast bg-gray-800 text-white p-4 mb-2 rounded shadow";
+        toast.textContent = message;
+
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+          toast.remove();
+        }, 5000);
+      }
+    </script>
+
+    <div
+      id="toast-container"
+      class="fixed bottom-5 left-5 flex flex-col items-end z-50"
+    >
+      {% if messages %} {% for message in messages %}
+      <div class="toast"></div>
+      <script>
+        showToast("{{ message }}");
+      </script>
+      {% endfor %} {% endif %}
+    </div>
   </body>
 </html>

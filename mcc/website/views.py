@@ -23,3 +23,8 @@ def logout_user(request):
     logout(request)
     messages.success(request, "You have been logged out!")
     return redirect('home')
+
+
+@login_required
+def positions(request):
+    return render(request, 'positions.html', {})
