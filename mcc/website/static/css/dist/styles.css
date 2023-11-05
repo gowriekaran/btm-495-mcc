@@ -1194,6 +1194,10 @@ select {
     flex-direction: row;
   }
 
+  .md\:p-8 {
+    padding: 2rem;
+  }
+
   .md\:px-2 {
     padding-left: 0.5rem;
     padding-right: 0.5rem;

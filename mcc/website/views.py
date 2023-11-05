@@ -42,3 +42,15 @@ def add_position(request):
         position.save()
         messages.success(request, "Position Added!")
     return redirect('positions')
+
+@login_required
+def delete_position(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        try:
+            instance = Position.objects.get(pk=id)
+            instance.delete()
+            messages.success(request, "Position Deleted!")
+        except Position.DoesNotExist:
+            messages.success(request, "Error: Position does not exist. Could not be deleted")
+    return redirect('positions')
