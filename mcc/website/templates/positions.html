@@ -9,43 +9,45 @@
           Manage Positions
         </h2>
       </div>
-      <div class="bg-white p-4 md:p-8 rounded shadow-md">
-        <table class="w-full border">
-          <thead class="text-white">
-            <tr class="bg-MCC-primary-darkererer">
-              <th class="border p-2">ID</th>
-              <th class="border p-2">Position Name</th>
-              <th class="border p-2">Position Description</th>
-              <th class="border p-2">Position Status</th>
-              <th class="border p-2">Action</th>
+      <div class="bg-white p-4 md:p-8 rounded shadow-md overflow-scroll">
+        <table class="w-full border ">
+          <thead>
+            <tr class="bg-MCC-secondary-tint">
+              <th class="border border-MCC-primary p-2 ">ID</th>
+              <th class="border border-MCC-primary p-2 min-w-[200px]">Position Name</th>
+              <th class="border border-MCC-primary p-2 min-w-[200px]">Position Description</th>
+              <th class="border border-MCC-primary p-2">Position Status</th>
+              <th class="border border-MCC-primary p-2">Action</th>
             </tr>
           </thead>
           <tbody>
             {% for position in positions %}
             <tr class="bg-MCC-secondary-tintererer">
-              <td class="border p-2">{{ position.id }}</td>
-              <td class="border p-2">{{ position.name }}</td>
-              <td class="border p-2">{{ position.description }}</td>
-              <td class="border p-2">{{ position.status }}</td>
-              <td class="border p-2 flex">
-                <span class="w-1/2 text-center">
-                  <form method="POST" action="{% url 'edit_position' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ position.id }}" />
-                    <button type="submit">
-                      ✏️
-                    </button>
-                  </form>
-                </span>
-                <span class="w-1/2 text-center">
-                  <form method="POST" action="{% url 'delete_position' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ position.id }}" />
-                    <button type="submit" onclick="return confirmDelete()">
-                      🗑️
-                    </button>
-                  </form>
-                </span>
+              <td class="border border-MCC-primary p-2">{{ position.id }}</td>
+              <td class="border border-MCC-primary p-2 min-w-[200px]">{{ position.name }}</td>
+              <td class="border border-MCC-primary p-2 min-w-[200px]">{{ position.description }}</td>
+              <td class="border border-MCC-primary p-2">{{ position.status }}</td>
+              <td class="border border-MCC-primary p-2">
+                <div class="flex">
+                  <span class="w-1/2 text-center">
+                    <form method="POST" action="{% url 'edit_position' %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="id" value="{{ position.id }}" />
+                      <button type="submit">
+                        ✏️
+                      </button>
+                    </form>
+                  </span>
+                  <span class="w-1/2 text-center">
+                    <form method="POST" action="{% url 'delete_position' %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="id" value="{{ position.id }}" />
+                      <button type="submit" onclick="return confirmDelete()">
+                        🗑️
+                      </button>
+                    </form>
+                  </span>
+                </div>
               </td>
             </tr>
             {% endfor %}
