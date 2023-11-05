@@ -2,10 +2,10 @@
 
 <div class="p-4 md:p-8">
   {% if user.is_authenticated %}
-  <div class="md:flex">
-    <div class="w-full md:w-2/3 mr-8">
+  <div class="lg:flex">
+    <div class="w-full lg:w-2/3 mr-8">
       <div class="w-full">
-        <h2 class="font-bold text-2xl text-white uppercase mb-4">
+        <h2 class="font-bold text-2xl text-white uppercase">
           Manage Positions
         </h2>
       </div>
@@ -15,8 +15,8 @@
             <tr class="bg-MCC-primary-darkererer">
               <th class="border p-2">ID</th>
               <th class="border p-2">Position Name</th>
-              <th class="border p-2">Position Status</th>
               <th class="border p-2">Position Description</th>
+              <th class="border p-2">Position Status</th>
               <th class="border p-2">Action</th>
             </tr>
           </thead>
@@ -25,10 +25,18 @@
             <tr class="bg-MCC-secondary-tintererer">
               <td class="border p-2">{{ position.id }}</td>
               <td class="border p-2">{{ position.name }}</td>
-              <td class="border p-2">{{ position.status }}</td>
               <td class="border p-2">{{ position.description }}</td>
+              <td class="border p-2">{{ position.status }}</td>
               <td class="border p-2 flex">
-                <span class="w-1/2 text-center">✏️</span>
+                <span class="w-1/2 text-center">
+                  <form method="POST" action="{% url 'edit_position' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ position.id }}" />
+                    <button type="submit">
+                      ✏️
+                    </button>
+                  </form>
+                </span>
                 <span class="w-1/2 text-center">
                   <form method="POST" action="{% url 'delete_position' %}">
                     {% csrf_token %}
@@ -45,14 +53,21 @@
         </table>
       </div>
     </div>
-    <div class="w-full mt-4 md:mt-0 md:w-1/3">
+    <div class="w-full mt-4 lg:mt-0 lg:w-1/3">
       <div class="w-full">
-        <h2 class="font-bold text-2xl text-white uppercase mb-4">
-          Add Position
-        </h2>
+        {% if edit_position %}
+        <h2 class="font-bold text-2xl text-white uppercase">Update Position</h2>
+        {% else %}
+        <h2 class="font-bold text-2xl text-white uppercase">Add Position</h2>
+        {% endif %}
       </div>
       <div class="bg-white p-8 rounded shadow-md">
+        {% if edit_position %}
+        <form method="POST" action="{% url 'update_position' %}">
+          <input type="hidden" name="id" value="{{ position.id }}" />
+        {% else %}
         <form method="POST" action="{% url 'add_position' %}">
+        {% endif %}
           {% csrf_token %}
           <div class="mb-4">
             <label
@@ -60,6 +75,17 @@
               class="block text-gray-600 text-sm font-medium mb-2"
               >Position Name</label
             >
+            {% if edit_position %}
+            <input
+              type="text"
+              id="positionName"
+              name="positionName"
+              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Enter position name"
+              value="{{ position.name }}"
+              required
+            />
+            {% else %}
             <input
               type="text"
               id="positionName"
@@ -68,6 +94,34 @@
               placeholder="Enter position name"
               required
             />
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label
+              for="positionDescription"
+              class="block text-gray-600 text-sm font-medium mb-2"
+              >Position Description</label
+            >
+            {% if edit_position %}
+            <textarea
+              id="positionDescription"
+              name="positionDescription"
+              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Enter position description"
+              rows="4"
+              required
+            >{{ position.description }}</textarea>
+            {% else %}
+            <textarea
+              id="positionDescription"
+              name="positionDescription"
+              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Enter position description"
+              rows="4"
+              required
+            ></textarea>
+            {% endif %}
           </div>
 
           <div class="mb-4">
@@ -76,6 +130,23 @@
               class="block text-gray-600 text-sm font-medium mb-2"
               >Position Status</label
             >
+            {% if edit_position %}
+            <select
+              id="positionStatus"
+              name="positionStatus"
+              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+              value="{{ position.status }}"
+              required
+            >
+              <option value="">Select an option</option>
+              <option value="Vacant" {% if position.status == "Vacant" %}selected{% endif %}>Vacant</option>
+              <option value="Open" {% if position.status == "Open" %}selected{% endif %}>Open</option>
+              <option value="Shortlist" {% if position.status == "Shortlist" %}selected{% endif %}>Shortlist</option>
+              <option value="Interview" {% if position.status == "Interview" %}selected{% endif %}>Interview</option>
+              <option value="Offered" {% if position.status == "Offered" %}selected{% endif %}>Offered</option>
+              <option value="Filled" {% if position.status == "Filled" %}selected{% endif %}>Filled</option>
+            </select>
+            {% else %}
             <select
               id="positionStatus"
               name="positionStatus"
@@ -90,24 +161,25 @@
               <option value="Offered">Offered</option>
               <option value="Filled">Filled</option>
             </select>
+            {% endif %}
           </div>
 
-          <div class="mb-4">
-            <label
-              for="positionDescription"
-              class="block text-gray-600 text-sm font-medium mb-2"
-              >Position Description</label
-            >
-            <textarea
-              id="positionDescription"
-              name="positionDescription"
-              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-              placeholder="Enter position description"
-              rows="4"
-              required
-            ></textarea>
-          </div>
-
+          {% if edit_position %}
+          <button
+            type="submit"
+            class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+            onclick="return confirmEdit()"
+          >
+            Update
+          </button>
+          <button
+            type="submit"
+            class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+            onclick="window.history.back();"
+          >
+            Cancel
+          </button>
+          {% else %}
           <button
             type="submit"
             class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
@@ -115,6 +187,7 @@
           >
             Submit
           </button>
+          {% endif %}
         </form>
       </div>
     </div>
@@ -122,6 +195,10 @@
 </div>
 <script>
   function confirmAdd() {
+    return confirm("Are you sure?");
+  }
+
+  function confirmEdit() {
     return confirm("Are you sure?");
   }
 

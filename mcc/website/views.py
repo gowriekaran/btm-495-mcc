@@ -28,15 +28,15 @@ def logout_user(request):
 
 @login_required
 def positions(request):
-    positions = Position.objects.all()
+    positions = Position.objects.all().order_by('id')
     return render(request, 'positions.html', {"positions": positions})
 
 @login_required
 def add_position(request):
     if request.method == 'POST':
         name = request.POST['positionName']
-        status = request.POST['positionStatus']
         description = request.POST['positionDescription']
+        status = request.POST['positionStatus']
 
         position = Position(name=name, description=description, status=status)
         position.save()
@@ -53,4 +53,36 @@ def delete_position(request):
             messages.success(request, "Position Deleted!")
         except Position.DoesNotExist:
             messages.success(request, "Error: Position does not exist. Could not be deleted")
+    return redirect('positions')
+
+@login_required
+def edit_position(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        try:
+            position = Position.objects.get(pk=id)
+            edit_position = True
+            positions = Position.objects.all().order_by('id')
+            context = {'position': position,
+                       'edit_position': edit_position, "positions": positions}
+            return render(request, 'positions.html', context)
+        except Position.DoesNotExist:
+            messages.success(
+                request, "Error: Position does not exist. Could not be updated")
+    return redirect('positions')
+
+@login_required
+def update_position(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        try:
+            position = Position.objects.get(pk=id)
+            position.name = request.POST['positionName']
+            position.description = request.POST['positionDescription']
+            position.status = request.POST['positionStatus']
+            position.save()
+            messages.success(request, "Appointment Updated!")
+        except Position.DoesNotExist:
+            messages.success(
+                request, "Error: Position does not exist. Could not be updated")
     return redirect('positions')
