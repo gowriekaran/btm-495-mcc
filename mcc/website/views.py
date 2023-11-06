@@ -23,7 +23,8 @@ def admin_hub(request):
         return render(request, 'admin-hub.html', {})
 
 def student_hub(request):
-    return render(request, 'student-hub.html', {})
+    positions = Position.objects.filter(status='Open').order_by('id')
+    return render(request, 'student-hub.html', {"positions": positions})
 
 @login_required
 def logout_user(request):

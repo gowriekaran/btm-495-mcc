@@ -1,13 +1,217 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
+
 <div class="flex sm:w-full justify-center p-4">
   <div class="bg-white p-8 rounded shadow-md w-full md:w-1/2">
     <h2 class="text-center font-bold">Welcome to the Student Hub!</h2>
-    <br />
-    <h3>Features coming soon:</h3>
-    <ul class="list-disc">
-      <li>View applications</li>
-      <li>Apply</li>
-    </ul>
+    <div class="flex min-h-[50px] text-center">
+      <button
+        id="returningApplicantFormButton"
+        class="w-1/2 bg-MCC-secondary-tint p-4 m-2 shadow-md rounded-lg flex items-center justify-center"
+      >
+        Returning Applicant
+      </button>
+      <button
+        id="newApplicantFormButton"
+        class="w-1/2 bg-MCC-secondary-tint p-4 m-2 shadow-md rounded-lg flex items-center justify-center"
+      >
+        New Applicant
+      </button>
+    </div>
+    <form action="#" method="POST" class="hidden" id="returningApplicantForm">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label for="id" class="block text-MCC-primary-darker font-semibold"
+          >Student ID</label
+        >
+        <input
+          type="text"
+          id="id"
+          name="id"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          placeholder="Enter Student ID"
+        />
+      </div>
+      <div class="mb-4">
+        <label
+          for="last_name"
+          class="block text-MCC-primary-darker font-semibold"
+          >Last Name</label
+        >
+        <input
+          type="text"
+          id="last_name"
+          name="last_name"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          placeholder="Enter Last Name"
+        />
+      </div>
+      <div class="mt-6">
+        <button
+          type="submit"
+          class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+        >
+          View Application(s)
+        </button>
+      </div>
+    </form>
+    {% if positions %}
+    <form action="#" method="POST" class="hidden" id="newApplicant">
+      {% csrf_token %}
+      <!-- Student ID -->
+      <div class="mb-4">
+        <label
+          for="student-id"
+          class="block text-MCC-primary-darker font-semibold"
+          >Student ID</label
+        >
+        <input
+          type="text"
+          id="student-id"
+          name="student_id"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          placeholder="Enter Student ID"
+        />
+      </div>
+
+      <!-- First Name -->
+      <div class="mb-4">
+        <label
+          for="first-name"
+          class="block text-MCC-primary-darker font-semibold"
+          >First Name</label
+        >
+        <input
+          type="text"
+          id="first-name"
+          name="first_name"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          placeholder="Enter First Name"
+        />
+      </div>
+
+      <!-- Last Name -->
+      <div class="mb-4">
+        <label
+          for="last-name"
+          class="block text-MCC-primary-darker font-semibold"
+          >Last Name</label
+        >
+        <input
+          type="text"
+          id="last-name"
+          name="last_name"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          placeholder="Enter Last Name"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="mb-4">
+        <label for="email" class="block text-MCC-primary-darker font-semibold"
+          >Email</label
+        >
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          placeholder="Enter Email"
+        />
+      </div>
+
+      <!-- Phone Number -->
+      <div class="mb-4">
+        <label
+          for="phone-number"
+          class="block text-MCC-primary-darker font-semibold"
+          >Phone Number</label
+        >
+        <input
+          type="tel"
+          id="phone-number"
+          name="phone_number"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          placeholder="Enter Phone Number"
+        />
+      </div>
+
+      <!-- Position Select Dropdown -->
+      <div class="mb-4">
+        <label
+          for="position"
+          class="block text-MCC-primary-darker font-semibold"
+          >Position</label
+        >
+        <select
+          id="position"
+          name="position"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+        >
+          <option value="">Select An Option</option>
+          {% for position in positions %}
+          <option value="{{ position.id }}">{{ position.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Experience -->
+      <div class="mb-4">
+        <label
+          for="experience"
+          class="block text-MCC-primary-darker font-semibold"
+          >Experience</label
+        >
+        <textarea
+          id="experience"
+          name="experience"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          rows="4"
+          placeholder="Enter Relevant Experience"
+        ></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button
+          type="submit"
+          class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+    {% else %}
+    <p class="hidden" id="newApplicant">
+      Unfortunately, there are no Open positions available at the moment. Please
+      check again soon.
+    </p>
+    {% endif %}
   </div>
 </div>
+<script>
+  const returningApplicantFormButton = document.getElementById(
+    "returningApplicantFormButton"
+  );
+
+  const newApplicantFormButton = document.getElementById(
+    "newApplicantFormButton"
+  );
+
+  const returningApplicantForm = document.getElementById(
+    "returningApplicantForm"
+  );
+
+  const newApplicantForm = document.getElementById("newApplicant");
+
+  returningApplicantFormButton.addEventListener("click", () => {
+    returningApplicantForm.classList.remove("hidden");
+    newApplicantForm.classList.add("hidden");
+  });
+
+  newApplicantFormButton.addEventListener("click", () => {
+    newApplicantForm.classList.remove("hidden");
+    returningApplicantForm.classList.add("hidden");
+  });
+</script>
+
 {% endblock %}
