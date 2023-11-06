@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 from .models import Position
+from .models import Student
+from .models import Submission
 
 def home(request):
     return render(request, 'home.html', {})
@@ -97,3 +100,41 @@ def update_position(request):
         elif 'cancel_button' in request.POST:
             messages.success(request, "Record update was cancelled!")
     return redirect('positions')
+
+def new_applicant(request):
+    if request.method == 'POST':
+        studentID = request.POST['student_id']
+        firstName = request.POST['first_name']
+        lastName = request.POST['last_name']
+        email = request.POST['email']
+        phoneNumber = request.POST['phone_number']
+        positionID = request.POST['position']
+        experience = request.POST['experience']
+
+        student = Student.objects.filter(studentID=studentID).first()
+        if student is None:
+            student = Student(studentID=studentID, firstName=firstName, lastName=lastName, email=email, phoneNumber = phoneNumber)
+            student.save()
+            student = Student.objects.filter(studentID=studentID).first()
+      
+        submission = Submission(studentID=student, selectedPositionID=positionID, experience=experience)
+        submission.save()
+        messages.success(request, "Record was added!")
+
+        submissions = Submission.objects.filter(studentID=student)
+    return render(request, 'applications.html', {"student": student, "submissions": submissions})
+
+def old_applicant(request):
+    studentID = request.POST['old_student_id']
+    lastName = request.POST['old_last_name']
+
+    student = Student.objects.filter(Q(studentID=studentID) & Q(lastName=lastName)).first()
+    submissions = Submission.objects.filter(studentID=student)
+
+    return render(request, 'applications.html', {"student": student, "submissions": submissions})
+
+def applications(request):
+    student = request.GET.get('student', None)
+    if student is not None:
+        return render(request, 'applications.html', {"student": student})
+    return redirect('student-hub')

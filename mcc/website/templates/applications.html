@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+
+<div class="flex sm:w-full justify-center p-4">
+  <div class="bg-white p-8 rounded shadow-md w-full md:w-1/2">
+    <h2 class="text-center font-bold">Welcome to your applications!</h2>
+    <div class="bg-MCC-secondary-tint rounded w-full p-4">
+      <span>Student ID: {{ student.studentID }}</span>
+      <br />
+      <span>First Name: {{ student.firstName }}</span>
+      <br />
+      <span>Last Name: {{ student.lastName }}</span>
+      <br />
+      <span>Email: {{ student.email }}</span>
+      <br />
+      <span>Phone Number: {{ student.phoneNumber }}</span>
+      <br />
+    </div>
+    <br />
+    <table class="w-full border">
+      <thead>
+        <tr class="bg-MCC-secondary-tint">
+          <th class="border border-MCC-primary p-2">ID</th>
+          <th class="border border-MCC-primary p-2 min-w-[200px]">
+            Selected Position
+          </th>
+          <th class="border border-MCC-primary p-2 min-w-[200px]">
+            Experience
+          </th>
+          <th class="border border-MCC-primary p-2">Date Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for submission in submissions %}
+        <tr class="bg-MCC-secondary-tintererer">
+          <td class="border border-MCC-primary p-2">{{ submission.id }}</td>
+          <td class="border border-MCC-primary p-2 min-w-[200px]">
+            {{ submission.selectedPositionID }}
+          </td>
+          <td class="border border-MCC-primary p-2 min-w-[200px]">
+            {{ submission.experience }}
+          </td>
+          <td class="border border-MCC-primary p-2">
+            {{ submission.dateSubmitted }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

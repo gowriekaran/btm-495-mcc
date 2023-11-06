@@ -8,41 +8,50 @@
         id="returningApplicantFormButton"
         class="w-1/2 bg-MCC-secondary-tint p-4 m-2 shadow-md rounded-lg flex items-center justify-center"
       >
-        Returning Applicant
+        View Application(s)
       </button>
       <button
         id="newApplicantFormButton"
         class="w-1/2 bg-MCC-secondary-tint p-4 m-2 shadow-md rounded-lg flex items-center justify-center"
       >
-        New Applicant
+        New Application
       </button>
     </div>
-    <form action="#" method="POST" class="hidden" id="returningApplicantForm">
+    <form
+      action="{% url 'old_applicant' %}"
+      method="POST"
+      class="hidden"
+      id="returningApplicantForm"
+    >
       {% csrf_token %}
       <div class="mb-4">
-        <label for="id" class="block text-MCC-primary-darker font-semibold"
+        <label
+          for="old_student_id"
+          class="block text-MCC-primary-darker font-semibold"
           >Student ID</label
         >
         <input
           type="text"
-          id="id"
-          name="id"
+          id="old_student_id"
+          name="old_student_id"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
           placeholder="Enter Student ID"
+          required
         />
       </div>
       <div class="mb-4">
         <label
-          for="last_name"
+          for="old_last_name"
           class="block text-MCC-primary-darker font-semibold"
           >Last Name</label
         >
         <input
           type="text"
-          id="last_name"
-          name="last_name"
+          id="old_last_name"
+          name="old_last_name"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
           placeholder="Enter Last Name"
+          required
         />
       </div>
       <div class="mt-6">
@@ -55,53 +64,61 @@
       </div>
     </form>
     {% if positions %}
-    <form action="#" method="POST" class="hidden" id="newApplicant">
+    <form
+      action="{% url 'new_applicant' %}"
+      method="POST"
+      class="hidden"
+      id="newApplicant"
+    >
       {% csrf_token %}
       <!-- Student ID -->
       <div class="mb-4">
         <label
-          for="student-id"
+          for="student_id"
           class="block text-MCC-primary-darker font-semibold"
           >Student ID</label
         >
         <input
           type="text"
-          id="student-id"
+          id="student_id"
           name="student_id"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
           placeholder="Enter Student ID"
+          required
         />
       </div>
 
       <!-- First Name -->
       <div class="mb-4">
         <label
-          for="first-name"
+          for="first_name"
           class="block text-MCC-primary-darker font-semibold"
           >First Name</label
         >
         <input
           type="text"
-          id="first-name"
+          id="first_name"
           name="first_name"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
           placeholder="Enter First Name"
+          required
         />
       </div>
 
       <!-- Last Name -->
       <div class="mb-4">
         <label
-          for="last-name"
+          for="last_name"
           class="block text-MCC-primary-darker font-semibold"
           >Last Name</label
         >
         <input
           type="text"
-          id="last-name"
+          id="last_name"
           name="last_name"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
           placeholder="Enter Last Name"
+          required
         />
       </div>
 
@@ -116,22 +133,24 @@
           name="email"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
           placeholder="Enter Email"
+          required
         />
       </div>
 
       <!-- Phone Number -->
       <div class="mb-4">
         <label
-          for="phone-number"
+          for="phone_number"
           class="block text-MCC-primary-darker font-semibold"
           >Phone Number</label
         >
         <input
           type="tel"
-          id="phone-number"
+          id="phone_number"
           name="phone_number"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
           placeholder="Enter Phone Number"
+          required
         />
       </div>
 
@@ -146,6 +165,7 @@
           id="position"
           name="position"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+          required
         >
           <option value="">Select An Option</option>
           {% for position in positions %}
@@ -167,6 +187,7 @@
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
           rows="4"
           placeholder="Enter Relevant Experience"
+          required
         ></textarea>
       </div>
 
