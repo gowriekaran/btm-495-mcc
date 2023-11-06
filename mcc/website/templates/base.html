@@ -20,12 +20,12 @@
   </head>
 
   <body class="bg-MCC-primary font-serif leading-normal tracking-normal">
-    <div class="bg-yellow-300 text-yellow-800 p-4">
+    <div class="bg-[#e5a712] text-black p-4">
       <div class="container mx-auto">
-        <div class="text-center">
-          <p class="text-lg">
-            The current app is in alpha stage. Disclaimer: This is a work in
-            progress and may contain bugs or incomplete features.
+        <div class="text-left">
+          <p class="md:text-lg">
+            This app is in alpha stage. <br />Features may contain bugs or be
+            incomplete.
           </p>
         </div>
       </div>
@@ -39,7 +39,7 @@
       >
         <!-- Hamburger button for mobile view -->
         <button
-          class="block border-0 bg-transparent md:px-2 text-MCC-primary-darkerer hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 md:hidden"
+          class="w-auto block border-0 bg-transparent md:px-2 text-MCC-primary-darkerer hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 md:hidden"
           type="button"
           data-te-collapse-init
           data-te-target="#navbarSupportedContent1"
@@ -63,7 +63,15 @@
             </svg>
           </span>
         </button>
-
+        <!-- Logo -->
+        <div class="flex-1 md:hidden flex items-center justify-center">
+          <a href="{% url 'home' %}" class="ml-[-28px]">
+            <img
+              src="{% static 'images/MCC_logo_simple.webp' %}"
+              alt="MCC Logo"
+            />
+          </a>
+        </div>
         <!-- Collapsible navigation container -->
         <div
           class="!visible hidden flex-grow basis-[100%] items-center md:!flex md:basis-auto"
@@ -144,7 +152,7 @@
         const toastContainer = document.getElementById("toast-container");
         const toast = document.createElement("div");
         toast.className =
-          "toast bg-gray-800 text-white p-4 mb-2 rounded shadow";
+          "toast bg-[#e5a712] text-black p-4 mb-2 rounded shadow";
         toast.textContent = message;
 
         toastContainer.appendChild(toast);

@@ -22,7 +22,7 @@ def home(request):
 @login_required
 def logout_user(request):
     logout(request)
-    messages.success(request, "You have been logged out!")
+    messages.success(request, "You have been logged out! Goodbye :)")
     return redirect('home')
 
 
@@ -40,7 +40,7 @@ def add_position(request):
 
         position = Position(name=name, description=description, status=status)
         position.save()
-        messages.success(request, "Position Added!")
+        messages.success(request, "Record was added!")
     return redirect('positions')
 
 @login_required
@@ -50,9 +50,9 @@ def delete_position(request):
         try:
             instance = Position.objects.get(pk=id)
             instance.delete()
-            messages.success(request, "Position Deleted!")
+            messages.success(request, "Record was deleted!")
         except Position.DoesNotExist:
-            messages.success(request, "Error: Position does not exist. Could not be deleted")
+            messages.success(request, "Error: Record does not exist. Delete failed!")
     return redirect('positions')
 
 @login_required
@@ -65,24 +65,28 @@ def edit_position(request):
             positions = Position.objects.all().order_by('id')
             context = {'position': position,
                        'edit_position': edit_position, "positions": positions}
+            messages.success(request, "Record is being edited!")
             return render(request, 'positions.html', context)
         except Position.DoesNotExist:
             messages.success(
-                request, "Error: Position does not exist. Could not be updated")
+                request, "Error: Record does not exist. Edit failed!")
     return redirect('positions')
 
 @login_required
 def update_position(request):
     if request.method == 'POST':
-        id = request.POST.get('id')
-        try:
-            position = Position.objects.get(pk=id)
-            position.name = request.POST['positionName']
-            position.description = request.POST['positionDescription']
-            position.status = request.POST['positionStatus']
-            position.save()
-            messages.success(request, "Appointment Updated!")
-        except Position.DoesNotExist:
-            messages.success(
-                request, "Error: Position does not exist. Could not be updated")
+        if 'update_button' in request.POST:
+            id = request.POST.get('id')
+            try:
+                position = Position.objects.get(pk=id)
+                position.name = request.POST['positionName']
+                position.description = request.POST['positionDescription']
+                position.status = request.POST['positionStatus']
+                position.save()
+                messages.success(request, "Record was updated!")
+            except Position.DoesNotExist:
+                messages.success(
+                    request, "Error: Update failed!")
+        elif 'cancel_button' in request.POST:
+            messages.success(request, "Record update was cancelled!")
     return redirect('positions')

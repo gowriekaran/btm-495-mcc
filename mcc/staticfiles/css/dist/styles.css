@@ -739,6 +739,10 @@ select {
   }
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
 .\!visible {
   visibility: visible !important;
 }
@@ -765,6 +769,10 @@ select {
 
 .z-50 {
   z-index: 50;
+}
+
+.z-10 {
+  z-index: 10;
 }
 
 .mx-auto {
@@ -805,6 +813,10 @@ select {
   margin-top: 1rem;
 }
 
+.ml-\[-28px\] {
+  margin-left: -28px;
+}
+
 .block {
   display: block;
 }
@@ -829,10 +841,6 @@ select {
   height: 100%;
 }
 
-.h-auto {
-  height: auto;
-}
-
 .w-1\/2 {
   width: 50%;
 }
@@ -849,12 +857,29 @@ select {
   width: 100%;
 }
 
-.min-w-\[75px\] {
-  min-width: 75px;
+.w-1\/12 {
+  width: 8.333333%;
+}
+
+.w-11\/12 {
+  width: 91.666667%;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.w-max {
+  width: -moz-max-content;
+  width: max-content;
 }
 
 .min-w-\[200px\] {
   min-width: 200px;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 .flex-grow {
@@ -867,6 +892,12 @@ select {
 
 .list-disc {
   list-style-type: disc;
+}
+
+.appearance-none {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .flex-col {
@@ -917,19 +948,14 @@ select {
   border-width: 0px;
 }
 
-.border-MCC-primary-darkerer {
-  --tw-border-opacity: 1;
-  border-color: rgb(97 8 8 / var(--tw-border-opacity));
-}
-
 .border-MCC-primary {
   --tw-border-opacity: 1;
   border-color: rgb(122 10 10 / var(--tw-border-opacity));
 }
 
-.border-MCC-primary-darkererer {
+.border-MCC-primary-darkerer {
   --tw-border-opacity: 1;
-  border-color: rgb(85 7 7 / var(--tw-border-opacity));
+  border-color: rgb(97 8 8 / var(--tw-border-opacity));
 }
 
 .bg-MCC-primary {
@@ -942,9 +968,9 @@ select {
   background-color: rgb(109 9 9 / var(--tw-bg-opacity));
 }
 
-.bg-MCC-primary-darkererer {
+.bg-MCC-secondary-tint {
   --tw-bg-opacity: 1;
-  background-color: rgb(85 7 7 / var(--tw-bg-opacity));
+  background-color: rgb(201 157 157 / var(--tw-bg-opacity));
 }
 
 .bg-MCC-secondary-tintererer {
@@ -976,9 +1002,9 @@ select {
   background-color: rgb(253 224 71 / var(--tw-bg-opacity));
 }
 
-.bg-MCC-secondary-tint {
+.bg-\[\#e5a712\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(201 157 157 / var(--tw-bg-opacity));
+  background-color: rgb(229 167 18 / var(--tw-bg-opacity));
 }
 
 .p-2 {
@@ -1015,6 +1041,10 @@ select {
 
 .pl-0 {
   padding-left: 0px;
+}
+
+.text-left {
+  text-align: left;
 }
 
 .text-center {
@@ -1085,6 +1115,24 @@ select {
   color: rgb(133 77 14 / var(--tw-text-opacity));
 }
 
+.text-MCC-primary-darker {
+  --tw-text-opacity: 1;
+  color: rgb(109 9 9 / var(--tw-text-opacity));
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.underline {
+  text-decoration-line: underline;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
@@ -1110,8 +1158,22 @@ select {
   transition-duration: 150ms;
 }
 
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .duration-200 {
   transition-duration: 200ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -1128,9 +1190,19 @@ select {
   background-color: rgb(85 7 7 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-MCC-secondary-tint:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(201 157 157 / var(--tw-bg-opacity));
+}
+
 .hover\:text-MCC-primary-darkererer:hover {
   --tw-text-opacity: 1;
   color: rgb(85 7 7 / var(--tw-text-opacity));
+}
+
+.hover\:text-MCC-primary:hover {
+  --tw-text-opacity: 1;
+  color: rgb(122 10 10 / var(--tw-text-opacity));
 }
 
 .hover\:no-underline:hover {
@@ -1150,6 +1222,11 @@ select {
 .focus\:border-blue-500:focus {
   --tw-border-opacity: 1;
   border-color: rgb(59 130 246 / var(--tw-border-opacity));
+}
+
+.focus\:border-MCC-primary-darker:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(109 9 9 / var(--tw-border-opacity));
 }
 
 .focus\:text-neutral-700:focus {
@@ -1213,12 +1290,24 @@ select {
     width: 50%;
   }
 
+  .md\:flex-grow {
+    flex-grow: 1;
+  }
+
   .md\:basis-auto {
     flex-basis: auto;
   }
 
   .md\:flex-row {
     flex-direction: row;
+  }
+
+  .md\:items-center {
+    align-items: center;
+  }
+
+  .md\:overflow-hidden {
+    overflow: hidden;
   }
 
   .md\:p-8 {
@@ -1237,6 +1326,11 @@ select {
 
   .md\:pr-2 {
     padding-right: 0.5rem;
+  }
+
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 }
 
