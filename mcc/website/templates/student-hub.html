@@ -5,23 +5,23 @@
     <h2 class="text-center font-bold">Welcome to the Student Hub!</h2>
     <div class="flex min-h-[50px] text-center">
       <button
-        id="returningApplicantFormButton"
+        id="viewMyApplicationsBtn"
         class="w-1/2 bg-MCC-secondary-tint p-4 m-2 shadow-md rounded-lg flex items-center justify-center"
       >
-        View Application(s)
+        View My Application(s)
       </button>
       <button
-        id="newApplicantFormButton"
+        id="applyNowBtn"
         class="w-1/2 bg-MCC-secondary-tint p-4 m-2 shadow-md rounded-lg flex items-center justify-center"
       >
-        New Application
+        Apply Now!
       </button>
     </div>
     <form
-      action="{% url 'old_applicant' %}"
+      action="{% url 'view-my-applications' %}"
       method="POST"
-      class="hidden"
-      id="returningApplicantForm"
+      class="hidden mt-4"
+      id="viewMyApplicationsForm"
     >
       {% csrf_token %}
       <div class="mb-4">
@@ -54,7 +54,7 @@
           required
         />
       </div>
-      <div class="mt-6">
+      <div class="mt-6 text-center">
         <button
           type="submit"
           class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
@@ -63,175 +63,178 @@
         </button>
       </div>
     </form>
-    {% if positions %}
-    <form
-      action="{% url 'new_applicant' %}"
-      method="POST"
-      class="hidden"
-      id="newApplicant"
-    >
-      {% csrf_token %}
-      <!-- Student ID -->
-      <div class="mb-4">
-        <label
-          for="student_id"
-          class="block text-MCC-primary-darker font-semibold"
-          >Student ID</label
-        >
-        <input
-          type="text"
-          id="student_id"
-          name="student_id"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
-          placeholder="Enter Student ID"
-          required
-        />
-      </div>
+    <div id="applyNow" class="hidden mt-4">
+      {% if positions %}
+      <form action="{% url 'new_applicant' %}" method="POST">
+        {% csrf_token %}
+        <!-- Student ID -->
+        <div class="mb-4">
+          <label
+            for="student_id"
+            class="block text-MCC-primary-darker font-semibold"
+            >Student ID</label
+          >
+          <input
+            type="text"
+            id="student_id"
+            name="student_id"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+            placeholder="Enter Student ID"
+            required
+          />
+        </div>
 
-      <!-- First Name -->
-      <div class="mb-4">
-        <label
-          for="first_name"
-          class="block text-MCC-primary-darker font-semibold"
-          >First Name</label
-        >
-        <input
-          type="text"
-          id="first_name"
-          name="first_name"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
-          placeholder="Enter First Name"
-          required
-        />
-      </div>
+        <!-- First Name -->
+        <div class="mb-4">
+          <label
+            for="first_name"
+            class="block text-MCC-primary-darker font-semibold"
+            >First Name</label
+          >
+          <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+            placeholder="Enter First Name"
+            required
+          />
+        </div>
 
-      <!-- Last Name -->
-      <div class="mb-4">
-        <label
-          for="last_name"
-          class="block text-MCC-primary-darker font-semibold"
-          >Last Name</label
-        >
-        <input
-          type="text"
-          id="last_name"
-          name="last_name"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
-          placeholder="Enter Last Name"
-          required
-        />
-      </div>
+        <!-- Last Name -->
+        <div class="mb-4">
+          <label
+            for="last_name"
+            class="block text-MCC-primary-darker font-semibold"
+            >Last Name</label
+          >
+          <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+            placeholder="Enter Last Name"
+            required
+          />
+        </div>
 
-      <!-- Email -->
-      <div class="mb-4">
-        <label for="email" class="block text-MCC-primary-darker font-semibold"
-          >Email</label
-        >
-        <input
-          type="email"
-          id="email"
-          name="email"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
-          placeholder="Enter Email"
-          required
-        />
-      </div>
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="block text-MCC-primary-darker font-semibold"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+            placeholder="Enter Email"
+            required
+          />
+        </div>
 
-      <!-- Phone Number -->
-      <div class="mb-4">
-        <label
-          for="phone_number"
-          class="block text-MCC-primary-darker font-semibold"
-          >Phone Number</label
-        >
-        <input
-          type="tel"
-          id="phone_number"
-          name="phone_number"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
-          placeholder="Enter Phone Number"
-          required
-        />
-      </div>
+        <!-- Phone Number -->
+        <div class="mb-4">
+          <label
+            for="phone_number"
+            class="block text-MCC-primary-darker font-semibold"
+            >Phone Number</label
+          >
+          <input
+            type="tel"
+            id="phone_number"
+            name="phone_number"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+            placeholder="Enter Phone Number"
+            required
+          />
+        </div>
 
-      <!-- Position Select Dropdown -->
-      <div class="mb-4">
-        <label
-          for="position"
-          class="block text-MCC-primary-darker font-semibold"
-          >Position</label
-        >
-        <select
-          id="position"
-          name="position"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
-          required
-        >
-          <option value="">Select An Option</option>
-          {% for position in positions %}
-          <option value="{{ position.id }}">{{ position.name }}</option>
-          {% endfor %}
-        </select>
-      </div>
+        <!-- Position Select Dropdown -->
+        <div class="mb-4">
+          <label
+            for="position"
+            class="block text-MCC-primary-darker font-semibold"
+            >Position</label
+          >
+          <select
+            id="position"
+            name="position"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+            required
+          >
+            <option value="">Select An Option</option>
+            {% for position in positions %}
+            <option value="{{ position.id }}">{{ position.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
-      <!-- Experience -->
-      <div class="mb-4">
-        <label
-          for="experience"
-          class="block text-MCC-primary-darker font-semibold"
-          >Experience</label
-        >
-        <textarea
-          id="experience"
-          name="experience"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
-          rows="4"
-          placeholder="Enter Relevant Experience"
-          required
-        ></textarea>
-      </div>
+        <!-- Experience -->
+        <div class="mb-4">
+          <label
+            for="experience"
+            class="block text-MCC-primary-darker font-semibold"
+            >Experience</label
+          >
+          <textarea
+            id="experience"
+            name="experience"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+            rows="4"
+            placeholder="Enter Relevant Experience"
+            required
+          ></textarea>
+        </div>
 
-      <!-- Submit Button -->
-      <div class="text-center">
-        <button
-          type="submit"
-          class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
-    {% else %}
-    <p class="hidden" id="newApplicant">
-      Unfortunately, there are no Open positions available at the moment. Please
-      check again soon.
-    </p>
-    {% endif %}
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button
+            type="submit"
+            class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+      {% else %}
+      <p>
+        Unfortunately, there are no Open positions available at the moment.
+        Please check again soon.
+      </p>
+      {% endif %}
+    </div>
   </div>
 </div>
 <script>
-  const returningApplicantFormButton = document.getElementById(
-    "returningApplicantFormButton"
+  const viewMyApplicationsBtn = document.getElementById(
+    "viewMyApplicationsBtn"
   );
 
-  const newApplicantFormButton = document.getElementById(
-    "newApplicantFormButton"
+  const applyNowBtn = document.getElementById("applyNowBtn");
+
+  const viewMyApplicationsForm = document.getElementById(
+    "viewMyApplicationsForm"
   );
 
-  const returningApplicantForm = document.getElementById(
-    "returningApplicantForm"
-  );
+  const applyNowDiv = document.getElementById("applyNow");
 
-  const newApplicantForm = document.getElementById("newApplicant");
-
-  returningApplicantFormButton.addEventListener("click", () => {
-    returningApplicantForm.classList.remove("hidden");
-    newApplicantForm.classList.add("hidden");
+  viewMyApplicationsBtn.addEventListener("click", () => {
+    viewMyApplicationsForm.classList.remove("hidden");
+    applyNowDiv.classList.add("hidden");
+    viewMyApplicationsBtn.classList.add("bg-MCC-primary-darkererer");
+    viewMyApplicationsBtn.classList.add("text-white");
+    applyNowBtn.classList.remove("bg-MCC-primary-darkererer");
+    applyNowBtn.classList.remove("text-white");
   });
 
-  newApplicantFormButton.addEventListener("click", () => {
-    newApplicantForm.classList.remove("hidden");
-    returningApplicantForm.classList.add("hidden");
+  applyNowBtn.addEventListener("click", () => {
+    applyNowDiv.classList.remove("hidden");
+    viewMyApplicationsForm.classList.add("hidden");
+    applyNowBtn.classList.add("bg-MCC-primary-darkererer");
+    applyNowBtn.classList.add("text-white");
+    viewMyApplicationsBtn.classList.remove("bg-MCC-primary-darkererer");
+    viewMyApplicationsBtn.classList.remove("text-white");
   });
 </script>
 

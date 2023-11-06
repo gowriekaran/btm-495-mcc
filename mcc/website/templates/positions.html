@@ -165,33 +165,34 @@
             </select>
             {% endif %}
           </div>
-
-          {% if edit_position %}
-          <button
-            type="submit"
-            name="update_button"
-            class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
-            onclick="return confirmEdit()"
-          >
-            Update
-          </button>
-          <button
-            type="submit"
-            name="cancel_button"
-            class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
-            onclick="window.history.back();"
-          >
-            Cancel
-          </button>
-          {% else %}
-          <button
-            type="submit"
-            class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
-            onclick="return confirmAdd()"
-          >
-            Submit
-          </button>
-          {% endif %}
+          <div class="text-center">
+            {% if edit_position %}
+            <button
+              type="submit"
+              name="update_button"
+              class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+              onclick="return confirmEdit()"
+            >
+              Update
+            </button>
+            <button
+              type="submit"
+              name="cancel_button"
+              class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+              onclick="window.history.back();"
+            >
+              Cancel
+            </button>
+            {% else %}
+            <button
+              type="submit"
+              class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+              onclick="return confirmAdd()"
+            >
+              Submit
+            </button>
+            {% endif %}
+          </div>
         </form>
       </div>
     </div>

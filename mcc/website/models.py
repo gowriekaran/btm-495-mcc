@@ -39,7 +39,7 @@ class Student(models.Model):
 class Submission(models.Model):
     id = models.AutoField(primary_key=True)
     studentID = models.ForeignKey(Student, on_delete=models.CASCADE)
-    selectedPositionID = models.IntegerField()
+    selectedPositionID = models.ForeignKey(Position, on_delete=models.CASCADE)
     experience = models.TextField()
     dateSubmitted = models.DateTimeField(auto_now_add=True)
 

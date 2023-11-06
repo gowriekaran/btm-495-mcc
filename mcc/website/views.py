@@ -117,14 +117,16 @@ def new_applicant(request):
             student.save()
             student = Student.objects.filter(studentID=studentID).first()
       
-        submission = Submission(studentID=student, selectedPositionID=positionID, experience=experience)
+        position = Position.objects.filter(id=positionID).first()
+
+        submission = Submission(studentID=student, selectedPositionID=position, experience=experience)
         submission.save()
         messages.success(request, "Record was added!")
 
         submissions = Submission.objects.filter(studentID=student)
-    return render(request, 'applications.html', {"student": student, "submissions": submissions})
+    return redirect('thank-you')
 
-def old_applicant(request):
+def view_student_applications(request):
     studentID = request.POST['old_student_id']
     lastName = request.POST['old_last_name']
 
@@ -138,3 +140,6 @@ def applications(request):
     if student is not None:
         return render(request, 'applications.html', {"student": student})
     return redirect('student-hub')
+
+def thank_you(request):
+    return render(request, 'thank-you.html')

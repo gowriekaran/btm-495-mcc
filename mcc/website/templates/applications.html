@@ -16,36 +16,38 @@
       <br />
     </div>
     <br />
-    <table class="w-full border">
-      <thead>
-        <tr class="bg-MCC-secondary-tint">
-          <th class="border border-MCC-primary p-2">ID</th>
-          <th class="border border-MCC-primary p-2 min-w-[200px]">
-            Selected Position
-          </th>
-          <th class="border border-MCC-primary p-2 min-w-[200px]">
-            Experience
-          </th>
-          <th class="border border-MCC-primary p-2">Date Submitted</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for submission in submissions %}
-        <tr class="bg-MCC-secondary-tintererer">
-          <td class="border border-MCC-primary p-2">{{ submission.id }}</td>
-          <td class="border border-MCC-primary p-2 min-w-[200px]">
-            {{ submission.selectedPositionID }}
-          </td>
-          <td class="border border-MCC-primary p-2 min-w-[200px]">
-            {{ submission.experience }}
-          </td>
-          <td class="border border-MCC-primary p-2">
-            {{ submission.dateSubmitted }}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="overflow-scroll md:overflow-hidden">
+      <table class="w-full border">
+        <thead>
+          <tr class="bg-MCC-secondary-tint">
+            <th class="border border-MCC-primary p-2">Application ID</th>
+            <th class="border border-MCC-primary p-2 min-w-[200px]">
+              Selected Position
+            </th>
+            <th class="border border-MCC-primary p-2 min-w-[200px]">
+              Experience
+            </th>
+            <th class="border border-MCC-primary p-2">Date Submitted</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for submission in submissions %}
+          <tr class="bg-MCC-secondary-tintererer">
+            <td class="border border-MCC-primary p-2">{{ submission.id }}</td>
+            <td class="border border-MCC-primary p-2 min-w-[200px]">
+              {{ submission.selectedPositionID.name }}
+            </td>
+            <td class="border border-MCC-primary p-2 min-w-[200px]">
+              {{ submission.experience }}
+            </td>
+            <td class="border border-MCC-primary p-2">
+              {{ submission.dateSubmitted }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
