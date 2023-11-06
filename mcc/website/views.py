@@ -5,6 +5,9 @@ from django.contrib import messages
 from .models import Position
 
 def home(request):
+    return render(request, 'home.html', {})
+
+def admin_hub(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -12,13 +15,16 @@ def home(request):
         if user is not None:
             login(request, user)
             messages.success(request, "You have been logged in!")
-            return redirect('home')
+            return redirect('admin-hub')
         else:
             messages.success(request, "There was an error logging in!")
-            return redirect('home')
+            return redirect('admin-hub')
     else:
-        return render(request, 'home.html', {})
-    
+        return render(request, 'admin-hub.html', {})
+
+def student_hub(request):
+    return render(request, 'student-hub.html', {})
+
 @login_required
 def logout_user(request):
     logout(request)

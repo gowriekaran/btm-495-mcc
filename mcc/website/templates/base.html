@@ -20,10 +20,10 @@
   </head>
 
   <body class="bg-MCC-primary font-serif leading-normal tracking-normal">
-    <div class="bg-[#e5a712] text-black p-4">
+    <div class="bg-MCC-yellow text-black p-4">
       <div class="container mx-auto">
         <div class="text-left">
-          <p class="md:text-lg">
+          <p class="md:text-lg text-center font-bold">
             This app is in alpha stage. <br />Features may contain bugs or be
             incomplete.
           </p>
@@ -93,6 +93,22 @@
             class="mt-4 md:mt-0 list-style-none mr-auto flex flex-col pl-0 md:flex-row"
             data-te-navbar-nav-ref
           >
+            <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
+              <a
+                class="text-MCC-primary-darkerer transition duration-200 hover:text-MCC-primary-darkererer hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none md:px-2 [&.active]:text-black/90"
+                href="{% url 'student-hub' %}"
+                data-te-nav-link-ref
+                >Student Hub</a
+              >
+            </li>
+            <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
+              <a
+                class="text-MCC-primary-darkerer transition duration-200 hover:text-MCC-primary-darkererer hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none md:px-2 [&.active]:text-black/90"
+                href="{% url 'admin-hub' %}"
+                data-te-nav-link-ref
+                >Admin Hub</a
+              >
+            </li>
             {% if user.is_authenticated %}
             <!-- Positions link -->
             <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
@@ -110,15 +126,6 @@
                 href="{% url 'logout' %}"
                 data-te-nav-link-ref
                 >Logout</a
-              >
-            </li>
-            {% else %}
-            <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
-              <a
-                class="text-MCC-primary-darkerer transition duration-200 hover:text-MCC-primary-darkererer hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none md:px-2 [&.active]:text-black/90"
-                href="{% url 'home' %}"
-                data-te-nav-link-ref
-                >Login</a
               >
             </li>
             {% endif %}
@@ -152,7 +159,7 @@
         const toastContainer = document.getElementById("toast-container");
         const toast = document.createElement("div");
         toast.className =
-          "toast bg-[#e5a712] text-black p-4 mb-2 rounded shadow";
+          "toast bg-MCC-yellow text-black p-4 mb-2 rounded shadow";
         toast.textContent = message;
 
         toastContainer.appendChild(toast);

@@ -1,0 +1,80 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+
+<div class="flex sm:w-full justify-center p-4">
+  {% if user.is_authenticated %}
+  <div class="bg-white p-8 rounded shadow-md w-full md:w-1/2">
+    <h2 class="text-center font-bold">
+      Welcome to the MCC Team Management Tool!
+    </h2>
+    <br />
+    <h3>Features available:</h3>
+    <ul class="list-disc">
+      <li>
+        <a
+          href="{% url 'positions' %}"
+          class="underline text-MCC-primary-darker font-bold"
+          >Manage Positions</a
+        >
+      </li>
+    </ul>
+    <br />
+    <h3>Features coming soon:</h3>
+    <ul class="list-disc">
+      <li>Manage Candidates</li>
+      <li>Manage Offers</li>
+      <li>Manage Interviews</li>
+    </ul>
+  </div>
+  {% else %}
+  <div class="bg-white p-8 rounded shadow-md w-96">
+    <div class="flex items-center justify-center mb-4">
+      <img
+        src="{% static 'images/MCC_logo.webp' %}"
+        alt="MCC Logo"
+        class="mx-auto my-auto"
+      />
+    </div>
+
+    <form method="POST" action="{% url 'admin-hub' %}">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label
+          for="username"
+          class="block text-sm font-medium text-MCC-primary-darkererer"
+          >Username</label
+        >
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="mt-1 p-2 block w-full rounded-md border border-MCC-primary-darkerer"
+          placeholder="Enter your username"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label
+          for="password"
+          class="block text-sm font-medium text-MCC-primary-darkererer"
+          >Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="mt-1 p-2 block w-full rounded-md border border-MCC-primary-darkerer"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

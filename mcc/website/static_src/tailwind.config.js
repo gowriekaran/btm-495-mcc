@@ -52,6 +52,7 @@ module.exports = {
         "MCC-secondary-tinter": "#d7b5b5",
         "MCC-secondary-tinterer": "#e4cece",
         "MCC-secondary-tintererer": "#f1e6e6",
+        "MCC-yellow": "#e5a712",
       },
       fontFamily: {
         poppins: ["Poppins", "sans"],
