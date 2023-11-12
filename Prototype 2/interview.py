@@ -3,6 +3,7 @@ class Interview:
     Private class for representing Interview information.
 
     Attributes:
+        __ID (int): The unique identifier of the object; autoincremented.
         __date (date): The interview date.
         __time (time): The interview time.
         __location (str): The interview location.
@@ -10,12 +11,26 @@ class Interview:
         __status (str): The status of the interview.
     """
     
-    def __init__(self, date, time, location):
+    id_count = 0
+
+    def __init__(self, candidate_id, date, time, location):
+        Interview.id_count += 1
+        self.__ID = Interview.id_count
+        self.__candidateID = candidate_id
         self.__date = date
         self.__time = time
         self.__location = location
         self.__status = "Not Started"
         self.__feedback = ""
+
+    def get_id(self):
+        return self.__ID
+
+    def get_candidate_id(self):
+        return self.__candidateID
+
+    def set_candidate_id(self, candidate_id):
+        self.__candidateID = candidate_id
 
     def get_date(self):
         return self.__date

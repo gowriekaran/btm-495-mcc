@@ -3,17 +3,28 @@ class Submission:
     Private class for representing Submission information.
 
     Attributes:
+        __ID (int): The unique identifier of the object; autoincremented.
         __studentID (int): The unique identifier for the student.
         __selectedPositionID (int): The unique identifier for the selected position.
         __experience (str): The experience of the student relative to the position.
         __dateSubmitted (date): The date of when the submission was submitted by the student.
     """
+
+    id_count = 0
     
     def __init__(self, student_id, selected_position_id, experience, date_submitted):
+        Submission.id_count += 1
+        self.__ID = Submission.id_count
         self.__studentID = student_id
         self.__selectedPositionID = selected_position_id
         self.__experience = experience
         self.__dateSubmitted = date_submitted
+
+    def get_id(self):
+        return self.__ID
+
+    def get_position_id(self):
+        return self.__selectedPositionID
 
     def get_student_id(self):
         return self.__studentID
