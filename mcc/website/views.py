@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.db.models import Q
 from .models import Position
 from .models import Student
+from .models import Candidate
 from .models import Submission
 
 def home(request):
@@ -150,4 +151,39 @@ def thank_you(request):
 @login_required
 def applicants(request):
     applicants = Submission.objects.all().order_by('id')
+    candidates = Candidate.objects.all()
+
+    for applicant in applicants:
+        matching_candidates = candidates.filter(
+            id=applicant.id,
+            submissionID__selectedPositionID=applicant.selectedPositionID
+        )
+
+        applicant.isCandidate = matching_candidates.exists()
+
     return render(request, 'applicants.html', {"applicants": applicants})
+
+@login_required
+def add_candidate(request):
+    if request.method == 'POST':
+        ID = request.POST['ID']
+        submissionID = request.POST['submissionID']
+
+        student = Student.objects.get(id=ID)
+        submission = Submission.objects.get(id=submissionID)
+
+        candidate = Candidate(id=ID, submissionID=submission)
+
+        candidate = Candidate.objects.create(
+            studentID=student.studentID,
+            firstName=student.firstName,
+            lastName=student.lastName,
+            email=student.email,
+            phoneNumber=student.phoneNumber,
+            submissionID=submission
+        )
+
+        candidate.save()
+
+        messages.success(request, "Record was added!")
+    return redirect('applicants')

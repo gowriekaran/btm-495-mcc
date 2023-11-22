@@ -881,6 +881,10 @@ select {
   flex-basis: 100%;
 }
 
+.table-auto {
+  table-layout: auto;
+}
+
 .list-disc {
   list-style-type: disc;
 }
@@ -915,10 +919,6 @@ select {
 
 .overflow-scroll {
   overflow: scroll;
-}
-
-.overflow-x-scroll {
-  overflow-x: scroll;
 }
 
 .rounded {
@@ -1129,6 +1129,12 @@ select {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-lg {
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .shadow-black\/5 {
   --tw-shadow-color: rgb(0 0 0 / 0.05);
   --tw-shadow: var(--tw-shadow-colored);
@@ -1163,16 +1169,6 @@ select {
 .hover\:bg-MCC-secondary-tint:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(201 157 157 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-MCC-secondary-tinter:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(215 181 181 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-MCC-secondary-tinterer:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(228 206 206 / var(--tw-bg-opacity));
 }
 
 .hover\:text-MCC-primary-darkererer:hover {

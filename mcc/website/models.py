@@ -23,7 +23,7 @@ class Position(models.Model):
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=VACANT)
 
     def __str__(self):
-        return f"Position: {self.id} - {self.name} - {self.description} - {self.status}"
+        return f"Position: {self.id} - Name: {self.name} - Description: {self.description} - Status: {self.status}"
 
 class Student(models.Model):
     id = models.AutoField(primary_key=True)
@@ -34,7 +34,7 @@ class Student(models.Model):
     phoneNumber = models.CharField(max_length=15, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.id} - Student ID: {self.studentID}, Name: {self.firstName} {self.lastName}, Email: {self.email}, Phone Number: {self.phoneNumber}"
+        return f"ID: {self.id} - Student ID: {self.studentID}, Name: {self.firstName} {self.lastName}, Email: {self.email}, Phone Number: {self.phoneNumber}"
     
 class Submission(models.Model):
     id = models.AutoField(primary_key=True)
@@ -44,4 +44,10 @@ class Submission(models.Model):
     dateSubmitted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Submission ID: {self.id}, Student: {self.studentID}, Selected Position ID: {self.selectedPositionID}, Experience: {self.experience}, Date Submitted: {self.dateSubmitted}"
+        return f"Submission: {self.id}, [{self.studentID}] - [{self.selectedPositionID}] - Experience: {self.experience} - Date Submitted: {self.dateSubmitted}"
+
+class Candidate(Student):
+    submissionID = models.ForeignKey(Submission, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Candidate: {self.id} - [{self.submissionID}]"

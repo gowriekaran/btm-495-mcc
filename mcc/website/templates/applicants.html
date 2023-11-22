@@ -6,16 +6,12 @@
   </div>
   <div class="bg-white p-8 rounded shadow-md w-full">
     <div class="overflow-scroll lg:overflow-hidden">
-      <table class="w-full border">
+      <table class="w-full border table-auto">
         <thead>
           <tr class="bg-MCC-secondary-tint">
             <th class="border border-MCC-primary p-2">Application ID</th>
-            <th class="border border-MCC-primary p-2 min-w-[200px]">
-              Selected Position
-            </th>
-            <th class="border border-MCC-primary p-2 min-w-[200px]">
-              Experience
-            </th>
+            <th class="border border-MCC-primary p-2">Selected Position</th>
+            <th class="border border-MCC-primary p-2">Experience</th>
             <th class="border border-MCC-primary p-2">Date Submitted</th>
             <th class="border border-MCC-primary p-2">Submitted by</th>
             <th class="border border-MCC-primary p-2">Action</th>
@@ -25,10 +21,10 @@
           {% for applicant in applicants %}
           <tr class="bg-MCC-secondary-tintererer">
             <td class="border border-MCC-primary p-2">{{ applicant.id }}</td>
-            <td class="border border-MCC-primary p-2 min-w-[200px]">
+            <td class="border border-MCC-primary p-2">
               {{ applicant.selectedPositionID.name }}
             </td>
-            <td class="border border-MCC-primary p-2 min-w-[200px]">
+            <td class="border border-MCC-primary p-2">
               {{ applicant.experience }}
             </td>
             <td class="border border-MCC-primary p-2">
@@ -37,7 +33,32 @@
             <td class="border border-MCC-primary p-2">
               {{ applicant.studentID }}
             </td>
-            <td class="border border-MCC-primary p-2">..</td>
+            <td class="border border-MCC-primary p-2 text-center items-center">
+              {% if applicant.isCandidate %}
+                <span>Already a candidate for the selected position!</span>
+              {% else %}
+                <form method="POST" action="{% url 'add_candidate' %}">
+                  {% csrf_token %}
+                  <input
+                    type="hidden"
+                    name="ID"
+                    value="{{ applicant.studentID.id }}"
+                  />
+                  <input
+                    type="hidden"
+                    name="submissionID"
+                    value="{{ applicant.id }}"
+                  />
+                  <button
+                    class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
+                    type="submit"
+                    onclick="return confirmDelete()"
+                  >
+                    Add Candidate
+                  </button>
+                </form>
+              {% endif %}
+            </td>
           </tr>
           {% endfor %}
         </tbody>
