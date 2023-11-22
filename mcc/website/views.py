@@ -146,3 +146,8 @@ def applications(request):
 
 def thank_you(request):
     return render(request, 'thank-you.html')
+
+@login_required
+def applicants(request):
+    applicants = Submission.objects.all().order_by('id')
+    return render(request, 'applicants.html', {"applicants": applicants})

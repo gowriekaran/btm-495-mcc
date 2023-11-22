@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+
+<div class="p-4 md:p-8">
+  <div class="w-full">
+    <h2 class="font-bold text-2xl text-white uppercase">Applicants</h2>
+  </div>
+  <div class="bg-white p-8 rounded shadow-md w-full">
+    <div class="overflow-scroll lg:overflow-hidden">
+      <table class="w-full border">
+        <thead>
+          <tr class="bg-MCC-secondary-tint">
+            <th class="border border-MCC-primary p-2">Application ID</th>
+            <th class="border border-MCC-primary p-2 min-w-[200px]">
+              Selected Position
+            </th>
+            <th class="border border-MCC-primary p-2 min-w-[200px]">
+              Experience
+            </th>
+            <th class="border border-MCC-primary p-2">Date Submitted</th>
+            <th class="border border-MCC-primary p-2">Submitted by</th>
+            <th class="border border-MCC-primary p-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for applicant in applicants %}
+          <tr class="bg-MCC-secondary-tintererer">
+            <td class="border border-MCC-primary p-2">{{ applicant.id }}</td>
+            <td class="border border-MCC-primary p-2 min-w-[200px]">
+              {{ applicant.selectedPositionID.name }}
+            </td>
+            <td class="border border-MCC-primary p-2 min-w-[200px]">
+              {{ applicant.experience }}
+            </td>
+            <td class="border border-MCC-primary p-2">
+              {{ applicant.dateSubmitted }}
+            </td>
+            <td class="border border-MCC-primary p-2">
+              {{ applicant.studentID }}
+            </td>
+            <td class="border border-MCC-primary p-2">..</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
