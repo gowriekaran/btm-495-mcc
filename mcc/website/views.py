@@ -44,13 +44,16 @@ def positions(request):
 @login_required
 def add_position(request):
     if request.method == 'POST':
-        name = request.POST['positionName']
-        description = request.POST['positionDescription']
-        status = request.POST['positionStatus']
+        if 'add_button' in request.POST:
+            name = request.POST['positionName']
+            description = request.POST['positionDescription']
+            status = request.POST['positionStatus']
 
-        position = Position(name=name, description=description, status=status)
-        position.save()
-        messages.success(request, "Record was added!")
+            position = Position(name=name, description=description, status=status)
+            position.save()
+            messages.success(request, "Record was added!")
+        elif 'cancel_button' in request.POST:
+            messages.success(request, "Record add was cancelled!")
     return redirect('positions')
 
 @login_required

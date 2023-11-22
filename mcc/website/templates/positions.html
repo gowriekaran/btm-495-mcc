@@ -3,10 +3,18 @@
 <div class="p-4 md:p-8">
   {% if user.is_authenticated %}
   <div class="flex justify-end">
-    <button id="addPositionBtn" class="bg-MCC-secondary-tint text-white p-4 rounded shadow-xl hover:bg-MCC-secondary-tinter">Add Position</button>
+  {% if edit_position %}
+
+  {% else %}
+    <button id="addPositionBtn" class="bg-MCC-secondary-tinter font-bold text-black p-4 rounded shadow-xl hover:bg-MCC-secondary-tint hover:text-black">Add Position</button>
+  {% endif %}
   </div>
-  <div class="lg:flex mt-8">
-    <div id="managePositionsContainer" class="w-full">
+  <div class="lg:flex">
+    {% if edit_position %}
+      <div id="managePositionsContainer" class="w-full lg:2/3 mr-8">
+    {% else %}
+      <div id="managePositionsContainer" class="w-full">
+    {% endif %}
       <div class="w-full">
         <h2 class="font-bold text-2xl text-white uppercase">
           Manage Positions
@@ -58,7 +66,11 @@
         </table>
       </div>
     </div>
-    <div id="addPositionsContainer" class="w-full mt-4 lg:mt-0 lg:w-1/3 hidden">
+    {% if edit_position %}
+      <div class="w-full mt-4 lg:mt-0 lg:w-1/3">
+    {% else %}
+      <div id="addPositionsContainer" class="w-full mt-4 lg:mt-0 lg:w-1/3 hidden">
+    {% endif %}
       <div class="w-full">
         {% if edit_position %}
         <h2 class="font-bold text-2xl text-white uppercase">Update Position</h2>
@@ -189,10 +201,19 @@
             {% else %}
             <button
               type="submit"
+              name="add_button"
               class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
               onclick="return confirmAdd()"
             >
               Submit
+            </button>
+            <button
+              type="submit"
+              name="cancel_button"
+              class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+              onclick="refreshPage(event)"
+            >
+              Cancel
             </button>
             {% endif %}
           </div>
@@ -207,6 +228,7 @@
   const addPositionsContainer = document.getElementById('addPositionsContainer');
 
   addPositionBtn.addEventListener("click", () => {
+    showToast("Record is being filled!");
     addPositionBtn.classList.add("hidden");
     managePositionsContainer.classList.add("lg:w-2/3","mr-8");
     addPositionsContainer.classList.remove("hidden");
@@ -222,6 +244,16 @@
 
   function confirmDelete() {
     return confirm("Are you sure?");
+  }
+
+  function refreshPage(event) {
+    event.preventDefault();
+
+    var userConfirmed = confirm("Are you sure?");
+    if (userConfirmed) {
+      showToast("Record was not added!");
+      location.reload();
+    }
   }
 </script>
 {% else %}
