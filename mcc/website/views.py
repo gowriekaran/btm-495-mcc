@@ -151,11 +151,10 @@ def thank_you(request):
 @login_required
 def applicants(request):
     applicants = Submission.objects.all().order_by('id')
-    candidates = Candidate.objects.all()
+    candidates = Candidate.objects.all().order_by('id')
 
     for applicant in applicants:
         matching_candidates = candidates.filter(
-            id=applicant.id,
             submissionID__selectedPositionID=applicant.selectedPositionID
         )
 
@@ -172,8 +171,6 @@ def add_candidate(request):
         student = Student.objects.get(id=ID)
         submission = Submission.objects.get(id=submissionID)
 
-        candidate = Candidate(id=ID, submissionID=submission)
-
         candidate = Candidate.objects.create(
             studentID=student.studentID,
             firstName=student.firstName,
@@ -184,6 +181,10 @@ def add_candidate(request):
         )
 
         candidate.save()
-
         messages.success(request, "Record was added!")
     return redirect('applicants')
+
+@login_required
+def candidates(request):
+    candidates = Candidate.objects.all().order_by('id')
+    return render(request, 'candidates.html', {"candidates": candidates})

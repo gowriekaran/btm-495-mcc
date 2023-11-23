@@ -15,6 +15,7 @@ urlpatterns = [
     path("update_position/", views.update_position, name='update_position'),
     path("delete_position/", views.delete_position, name='delete_position'),
     path("applicants/", views.applicants, name='applicants'),
+    path("candidates/", views.candidates, name='candidates'),
     path("add_candidate/", views.add_candidate, name='add_candidate'),
     path("logout/", views.logout_user, name='logout'),
 ]

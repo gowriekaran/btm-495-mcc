@@ -31,7 +31,13 @@
               {{ applicant.dateSubmitted }}
             </td>
             <td class="border border-MCC-primary p-2">
-              {{ applicant.studentID }}
+              <span>Student ID: {{ applicant.studentID.studentID }}</span>
+              <br>
+              <span>Name: {{ applicant.studentID.firstName }} {{ applicant.studentID.lastName }}</span>
+              <br>
+              <span>Phone number: {{ applicant.studentID.phoneNumber }}</span>
+              <br>
+              <span>Email: {{ applicant.studentID.email }}</span>
             </td>
             <td class="border border-MCC-primary p-2 text-center items-center">
               {% if applicant.isCandidate %}
