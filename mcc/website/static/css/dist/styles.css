@@ -817,10 +817,6 @@ select {
   margin-top: 1.5rem;
 }
 
-.mt-8 {
-  margin-top: 2rem;
-}
-
 .block {
   display: block;
 }
@@ -885,6 +881,10 @@ select {
   flex-basis: 100%;
 }
 
+.table-auto {
+  table-layout: auto;
+}
+
 .list-disc {
   list-style-type: disc;
 }
@@ -941,14 +941,6 @@ select {
   border-width: 0px;
 }
 
-.border-4 {
-  border-width: 4px;
-}
-
-.border-2 {
-  border-width: 2px;
-}
-
 .border-MCC-primary {
   --tw-border-opacity: 1;
   border-color: rgb(122 10 10 / var(--tw-border-opacity));
@@ -957,11 +949,6 @@ select {
 .border-MCC-primary-darkerer {
   --tw-border-opacity: 1;
   border-color: rgb(97 8 8 / var(--tw-border-opacity));
-}
-
-.border-white {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .bg-MCC-primary {
@@ -982,6 +969,11 @@ select {
 .bg-MCC-secondary-tint {
   --tw-bg-opacity: 1;
   background-color: rgb(201 157 157 / var(--tw-bg-opacity));
+}
+
+.bg-MCC-secondary-tinter {
+  --tw-bg-opacity: 1;
+  background-color: rgb(215 181 181 / var(--tw-bg-opacity));
 }
 
 .bg-MCC-secondary-tintererer {
@@ -1006,21 +998,6 @@ select {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.\!bg-MCC-primary-darkererer {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(85 7 7 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-MCC-primary-darkerer {
-  --tw-bg-opacity: 1;
-  background-color: rgb(97 8 8 / var(--tw-bg-opacity));
-}
-
-.bg-MCC-secondary-tinter {
-  --tw-bg-opacity: 1;
-  background-color: rgb(215 181 181 / var(--tw-bg-opacity));
 }
 
 .p-2 {
@@ -1130,16 +1107,6 @@ select {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.\!text-white {
-  --tw-text-opacity: 1 !important;
-  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
-}
-
-.text-MCC-primary {
-  --tw-text-opacity: 1;
-  color: rgb(122 10 10 / var(--tw-text-opacity));
-}
-
 .underline {
   text-decoration-line: underline;
 }
@@ -1193,11 +1160,6 @@ select {
   background-color: rgb(85 7 7 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-MCC-secondary-tinter:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(215 181 181 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-MCC-secondary-tint:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(201 157 157 / var(--tw-bg-opacity));
@@ -1211,6 +1173,11 @@ select {
 .hover\:text-black:hover {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.hover\:text-white:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .hover\:no-underline:hover {
@@ -1362,6 +1329,10 @@ select {
 
   .lg\:justify-start {
     justify-content: flex-start;
+  }
+
+  .lg\:overflow-hidden {
+    overflow: hidden;
   }
 
   .lg\:py-4 {

@@ -5,7 +5,9 @@ from django.contrib import messages
 from django.db.models import Q
 from .models import Position
 from .models import Student
+from .models import Candidate
 from .models import Submission
+from .models import Interview
 
 def home(request):
     return render(request, 'home.html', {})
@@ -135,6 +137,18 @@ def view_student_applications(request):
 
     student = Student.objects.filter(Q(studentID=studentID) & Q(lastName=lastName)).first()
     submissions = Submission.objects.filter(studentID=student)
+    candidates = Candidate.objects.all().order_by('id')
+
+    for submission in submissions:
+        matching_candidate = candidates.filter(
+            submissionID__studentID=submission.studentID,
+            submissionID__selectedPositionID=submission.selectedPositionID
+        ).first()
+
+        if matching_candidate:
+            submission.candidate_status = matching_candidate.status
+        else:
+            submission.candidate_status = "Application Received"
 
     return render(request, 'applications.html', {"student": student, "submissions": submissions})
 
@@ -146,3 +160,50 @@ def applications(request):
 
 def thank_you(request):
     return render(request, 'thank-you.html')
+
+@login_required
+def applicants(request):
+    applicants = Submission.objects.all().order_by('id')
+    candidates = Candidate.objects.all().order_by('id')
+
+    for applicant in applicants:
+        matching_candidates = candidates.filter(
+            submissionID__studentID=applicant.studentID,
+            submissionID__selectedPositionID=applicant.selectedPositionID
+        )
+
+        applicant.isCandidate = matching_candidates.exists()
+
+    return render(request, 'applicants.html', {"applicants": applicants})
+
+@login_required
+def add_candidate(request):
+    if request.method == 'POST':
+        ID = request.POST['ID']
+        submissionID = request.POST['submissionID']
+
+        student = Student.objects.get(id=ID)
+        submission = Submission.objects.get(id=submissionID)
+
+        candidate = Candidate.objects.create(
+            studentID=student.studentID,
+            firstName=student.firstName,
+            lastName=student.lastName,
+            email=student.email,
+            phoneNumber=student.phoneNumber,
+            submissionID=submission
+        )
+
+        candidate.save()
+        messages.success(request, "Record was added!")
+    return redirect('applicants')
+
+@login_required
+def candidates(request):
+    candidates = Candidate.objects.all().order_by('id')
+    return render(request, 'candidates.html', {"candidates": candidates})
+
+@login_required
+def interviews(request):
+    interviews = Interview.objects.all().order_by('id')
+    return render(request, 'interviews.html', {"interviews": interviews})

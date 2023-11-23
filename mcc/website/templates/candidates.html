@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+
+<div class="p-4 md:p-8">
+  <div class="w-full">
+    <h2 class="font-bold text-2xl text-white uppercase">Candidates</h2>
+  </div>
+  <div class="bg-white p-8 rounded shadow-md w-full">
+    <div class="overflow-scroll lg:overflow-hidden">
+      <table class="w-full border table-auto">
+        <thead>
+          <tr class="bg-MCC-secondary-tint">
+            <th class="border border-MCC-primary p-2">Position</th>
+            <th class="border border-MCC-primary p-2">Student ID</th>
+            <th class="border border-MCC-primary p-2">Name</th>
+            <th class="border border-MCC-primary p-2">Email</th>
+            <th class="border border-MCC-primary p-2">Phone Number</th>
+            <th class="border border-MCC-primary p-2">Status</th>
+            <th class="border border-MCC-primary p-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for candidate in candidates %}
+          <tr class="bg-MCC-secondary-tintererer">
+            <td class="border border-MCC-primary p-2">{{ candidate.submissionID.selectedPositionID.name }}</td>
+            <td class="border border-MCC-primary p-2">{{ candidate.studentID }}</td>
+            <td class="border border-MCC-primary p-2">{{ candidate.firstName }} {{ candidate.lastName }}</td>
+            <td class="border border-MCC-primary p-2">{{ candidate.email }}</td>
+            <td class="border border-MCC-primary p-2">{{ candidate.phoneNumber }}</td>
+            <td class="border border-MCC-primary p-2">{{ candidate.status }}</td>
+            <td class="border border-MCC-primary p-2 text-center items-center">
+              <form method="POST" action="{% url 'add_candidate' %}">
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="ID"
+                  value="{{ candidate.id }}"
+                />
+                <button
+                  class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
+                  type="submit"
+                  onclick="return confirmAdd()"
+                >
+                  Create Interview
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  function confirmAdd() {
+    return confirm("Are you sure?");
+  }
+</script>
+{% endblock %}
