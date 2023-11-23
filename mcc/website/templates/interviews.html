@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+
+<div class="p-4 md:p-8">
+  <div class="w-full">
+    <h2 class="font-bold text-2xl text-white uppercase">Interviews</h2>
+  </div>
+  <div class="bg-white p-8 rounded shadow-md w-full">
+    <div class="overflow-scroll lg:overflow-hidden">
+      <table class="w-full border table-auto">
+        <thead>
+          <tr class="bg-MCC-secondary-tint">
+            <th class="border border-MCC-primary p-2">Date & Time</th>
+            <th class="border border-MCC-primary p-2">Location</th>
+            <th class="border border-MCC-primary p-2">Candidate</th>
+            <th class="border border-MCC-primary p-2">Feedback</th>
+            <th class="border border-MCC-primary p-2">Status</th>
+            <th class="border border-MCC-primary p-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for interview in interviews %}
+          <tr class="bg-MCC-secondary-tintererer">
+            <td class="border border-MCC-primary p-2"></td>
+            <td class="border border-MCC-primary p-2"></td>
+            <td class="border border-MCC-primary p-2"></td>
+            <td class="border border-MCC-primary p-2"></td>
+            <td class="border border-MCC-primary p-2"></td>
+            <td class="border border-MCC-primary p-2"></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

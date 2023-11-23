@@ -25,7 +25,23 @@
             <td class="border border-MCC-primary p-2">{{ candidate.firstName }} {{ candidate.lastName }}</td>
             <td class="border border-MCC-primary p-2">{{ candidate.email }}</td>
             <td class="border border-MCC-primary p-2">{{ candidate.phoneNumber }}</td>
-            <td class="border border-MCC-primary p-2"></td>
+            <td class="border border-MCC-primary p-2 text-center items-center">
+              <form method="POST" action="{% url 'add_candidate' %}">
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="ID"
+                  value="{{ candidate.id }}"
+                />
+                <button
+                  class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
+                  type="submit"
+                  onclick="return confirmAdd()"
+                >
+                  Create Interview
+                </button>
+              </form>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -33,5 +49,9 @@
     </div>
   </div>
 </div>
-
+<script>
+  function confirmAdd() {
+    return confirm("Are you sure?");
+  }
+</script>
 {% endblock %}

@@ -58,7 +58,7 @@
                   <button
                     class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
                     type="submit"
-                    onclick="return confirmDelete()"
+                    onclick="return confirmAdd()"
                   >
                     Add Candidate
                   </button>
@@ -72,5 +72,9 @@
     </div>
   </div>
 </div>
-
+<script>
+    function confirmAdd() {
+      return confirm("Are you sure?");
+    }
+</script>
 {% endblock %}

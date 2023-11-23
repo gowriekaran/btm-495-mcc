@@ -51,3 +51,15 @@ class Candidate(Student):
 
     def __str__(self):
         return f"Candidate: {self.id} - [{self.submissionID}]"
+
+class Interview(models.Model):
+    id = models.AutoField(primary_key=True)
+    candidateID = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+    dateTime = models.DateTimeField()
+    location = models.TextField()
+    feedback = models.TextField()
+    status = models.TextField()
+
+    def __str__(self):
+        return f"Interview: {self.id} - [{self.candidateID}] - {self.dateTime} - {self.location} - {self.feedback} - {self.status}"
+

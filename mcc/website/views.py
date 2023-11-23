@@ -7,6 +7,7 @@ from .models import Position
 from .models import Student
 from .models import Candidate
 from .models import Submission
+from .models import Interview
 
 def home(request):
     return render(request, 'home.html', {})
@@ -188,3 +189,8 @@ def add_candidate(request):
 def candidates(request):
     candidates = Candidate.objects.all().order_by('id')
     return render(request, 'candidates.html', {"candidates": candidates})
+
+@login_required
+def interviews(request):
+    interviews = Interview.objects.all().order_by('id')
+    return render(request, 'interviews.html', {"interviews": interviews})
