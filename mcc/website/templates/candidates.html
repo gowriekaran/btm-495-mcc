@@ -14,6 +14,7 @@
             <th class="border border-MCC-primary p-2">Name</th>
             <th class="border border-MCC-primary p-2">Email</th>
             <th class="border border-MCC-primary p-2">Phone Number</th>
+            <th class="border border-MCC-primary p-2">Status</th>
             <th class="border border-MCC-primary p-2">Action</th>
           </tr>
         </thead>
@@ -25,6 +26,7 @@
             <td class="border border-MCC-primary p-2">{{ candidate.firstName }} {{ candidate.lastName }}</td>
             <td class="border border-MCC-primary p-2">{{ candidate.email }}</td>
             <td class="border border-MCC-primary p-2">{{ candidate.phoneNumber }}</td>
+            <td class="border border-MCC-primary p-2">{{ candidate.status }}</td>
             <td class="border border-MCC-primary p-2 text-center items-center">
               <form method="POST" action="{% url 'add_candidate' %}">
                 {% csrf_token %}

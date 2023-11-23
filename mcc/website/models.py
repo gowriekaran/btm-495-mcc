@@ -47,10 +47,25 @@ class Submission(models.Model):
         return f"Submission: {self.id}, [{self.studentID}] - [{self.selectedPositionID}] - Experience: {self.experience} - Date Submitted: {self.dateSubmitted}"
 
 class Candidate(Student):
+    INTERVIEW = 'Interview'
+    OFFERED = 'Offered'
+    REJECTED = 'Rejected'
+    HIRED = 'Hired'
+    MCC_TEAM_MEMBER = 'MCC Team Member'
+
+    STATUS_CHOICES = [
+        (INTERVIEW, 'Interview'),
+        (OFFERED, 'Offered'),
+        (REJECTED, 'Rejected'),
+        (HIRED, 'Hired'),
+        (MCC_TEAM_MEMBER, 'MCC Team Member'),
+    ]
+
     submissionID = models.ForeignKey(Submission, on_delete=models.CASCADE)
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=INTERVIEW)
 
     def __str__(self):
-        return f"Candidate: {self.id} - [{self.submissionID}]"
+        return f"Candidate: {self.id} - [{self.submissionID} - {self.status}"
 
 class Interview(models.Model):
     id = models.AutoField(primary_key=True)

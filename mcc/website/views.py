@@ -137,6 +137,18 @@ def view_student_applications(request):
 
     student = Student.objects.filter(Q(studentID=studentID) & Q(lastName=lastName)).first()
     submissions = Submission.objects.filter(studentID=student)
+    candidates = Candidate.objects.all().order_by('id')
+
+    for submission in submissions:
+        matching_candidate = candidates.filter(
+            submissionID__studentID=submission.studentID,
+            submissionID__selectedPositionID=submission.selectedPositionID
+        ).first()
+
+        if matching_candidate:
+            submission.candidate_status = matching_candidate.status
+        else:
+            submission.candidate_status = "Application Received"
 
     return render(request, 'applications.html', {"student": student, "submissions": submissions})
 
@@ -156,6 +168,7 @@ def applicants(request):
 
     for applicant in applicants:
         matching_candidates = candidates.filter(
+            submissionID__studentID=applicant.studentID,
             submissionID__selectedPositionID=applicant.selectedPositionID
         )
 
