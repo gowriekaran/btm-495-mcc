@@ -8,6 +8,9 @@ from .models import Student
 from .models import Candidate
 from .models import Submission
 from .models import Interview
+from .models import Availability
+from django.http import JsonResponse
+
 
 def home(request):
     return render(request, 'home.html', {})
@@ -147,6 +150,10 @@ def view_student_applications(request):
 
         if matching_candidate:
             submission.candidate_status = matching_candidate.status
+
+            if(matching_candidate.status == "Interview"):
+                interviewID = Interview.objects.get(candidateID=matching_candidate)
+                submission.interviewID = interviewID
         else:
             submission.candidate_status = "Application Received"
 
@@ -207,3 +214,56 @@ def candidates(request):
 def interviews(request):
     interviews = Interview.objects.all().order_by('id')
     return render(request, 'interviews.html', {"interviews": interviews})
+
+@login_required
+def add_interview(request):
+    if request.method == 'POST':
+        ID = request.POST['ID']
+        candidate = Candidate.objects.get(id=ID)
+        candidate.status = 'Interview'
+        candidate.save()
+
+        interview = Interview(candidateID=candidate)
+        interview.save()
+    return redirect('candidates')
+
+@login_required
+def cancel_interview(request):
+    if request.method == 'POST':
+        ID = request.POST['ID']
+        candidate = Candidate.objects.get(id=ID)
+        candidate.status = 'Candidate'
+        candidate.save()
+
+        interview = Interview.objects.get(candidateID=candidate)
+        interview.delete()
+    return redirect('interviews')
+
+@login_required
+def add_availability(request):
+    if request.method == 'POST':
+        studentID = request.POST['old_student_id']
+        lastName = request.POST['old_last_name']
+
+        student = Student.objects.filter(Q(studentID=studentID) & Q(lastName=lastName)).first()
+        submissions = Submission.objects.filter(studentID=student)
+
+        ID = request.POST['interviewID']
+        interview = Interview.objects.get(id=ID)
+
+        time = request.POST['interviewTime']
+        date = request.POST['interviewDate']
+
+        print(time)
+        print(date)
+
+        datetime = f'{date}T{time}'
+
+        availability = Availability(interviewID=interview, dateTime=datetime)
+        availability.save()
+
+        # Return JSON response indicating success or failure
+        return JsonResponse({'status': 'success'})
+
+    # Return JSON response if the request method is not POST
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})

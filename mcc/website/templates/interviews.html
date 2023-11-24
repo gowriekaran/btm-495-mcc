@@ -9,6 +9,7 @@
       <table class="w-full border table-auto">
         <thead>
           <tr class="bg-MCC-secondary-tint">
+            <th class="border border-MCC-primary p-2">Position</th>
             <th class="border border-MCC-primary p-2">Date & Time</th>
             <th class="border border-MCC-primary p-2">Location</th>
             <th class="border border-MCC-primary p-2">Candidate</th>
@@ -20,12 +21,37 @@
         <tbody>
           {% for interview in interviews %}
           <tr class="bg-MCC-secondary-tintererer">
-            <td class="border border-MCC-primary p-2"></td>
-            <td class="border border-MCC-primary p-2"></td>
-            <td class="border border-MCC-primary p-2"></td>
-            <td class="border border-MCC-primary p-2"></td>
-            <td class="border border-MCC-primary p-2"></td>
-            <td class="border border-MCC-primary p-2"></td>
+            <td class="border border-MCC-primary p-2">{{ interview.candidateID.submissionID.selectedPositionID.name }}</td>
+            <td class="border border-MCC-primary p-2">{{ interview.dateTime }}</td>
+            <td class="border border-MCC-primary p-2">{{ interview.location}} </td>
+            <td class="border border-MCC-primary p-2">
+              <span>Student ID: {{ interview.candidateID.studentID }}</span>
+              <br>
+              <span>Name: {{ interview.candidateID.firstName }} {{ interview.candidateID.lastName }}</span>
+              <br>
+              <span>Phone number: {{ interview.candidateID.phoneNumber }}</span>
+              <br>
+              <span>Email: {{ interview.candidateID.email }}</span>
+            </td>
+            <td class="border border-MCC-primary p-2">{{ interview.feedback }}</td>
+            <td class="border border-MCC-primary p-2">{{ interview.status }}</td>
+            <td class="border border-MCC-primary p-2">
+              <form method="POST" action="{% url 'cancel_interview' %}">
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="ID"
+                  value="{{ interview.candidateID.id }}"
+                />
+                <button
+                  class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
+                  type="submit"
+                  onclick="return confirmCancel()"
+                >
+                  Cancel Interview
+                </button>
+              </form>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -33,5 +59,9 @@
     </div>
   </div>
 </div>
-
+<script>
+  function confirmCancel() {
+    return confirm("Are you sure?");
+  }
+</script>
 {% endblock %}
