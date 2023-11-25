@@ -11,7 +11,6 @@
           <tr class="bg-MCC-secondary-tint">
             <th class="border border-MCC-primary p-2">Interview ID</th>
             <th class="border border-MCC-primary p-2">Position</th>
-            <th class="border border-MCC-primary p-2">Date & Time</th>
             <th class="border border-MCC-primary p-2">Location</th>
             <th class="border border-MCC-primary p-2">Candidate</th>
             <th class="border border-MCC-primary p-2">Feedback</th>
@@ -25,7 +24,6 @@
           <tr class="bg-MCC-secondary-tintererer">
             <td class="text-center border border-MCC-primary p-2">{{ interview.id }}</td>
             <td class="text-center border border-MCC-primary p-2">{{ interview.candidateID.submissionID.selectedPositionID.name }}</td>
-            <td class="text-center border border-MCC-primary p-2">{{ interview.dateTime }}</td>
             <td class="text-center border border-MCC-primary p-2">{{ interview.location}} </td>
             <td class="border border-MCC-primary p-2">
               <span>Student ID: {{ interview.candidateID.studentID }}</span>
@@ -67,7 +65,7 @@
   <h2 id="additionalInformationTitle" class="font-bold text-2xl text-white uppercase hidden">
     Availabilities
   </h2>
-  <div class="grid gap-4 grid-cols-4 overflow-scroll">
+  <div class="flex overflow-x-scroll">
      {% for interview in interviews %}
       {% if interview.status == "Scheduling" %}
         <script>
@@ -78,14 +76,14 @@
               }
           });
         </script>
-        <div class="bg-white p-8 rounded shadow-md">
+        <div class="bg-white p-8 rounded shadow-md min-w-[300px] mr-8">
           <h3 class="mb-4 text-center font-bold text-xl text-MCC-primary-darker uppercase">Interview #{{ interview.id }}</h3>
-          <span id="additionalInformationSubTitle" class="w-full text-center">Waiting for Candidate to share availabilities.</span>
+          <span id="additionalInformationSubTitle{{interview.id}}" class="w-full text-center">Waiting for Candidate to share availabilities.</span>
           {% for availability in availabilities %}
             {% if availability.interviewID.id == interview.id %}
               <script>
                 document.addEventListener("DOMContentLoaded", function() {
-                    var additionalInformationSubTitle = document.getElementById("additionalInformationSubTitle");
+                    var additionalInformationSubTitle = document.getElementById("additionalInformationSubTitle{{interview.id}}");
                     if (additionalInformationSubTitle) {
                         additionalInformationSubTitle.classList.add("hidden");
                     }
@@ -96,14 +94,14 @@
                 <input type="hidden" name="interviewID" value="{{ interview.id }}" />
                 <input type="hidden" name="availabilityID" value="{{ availability.id }}" />
                 <div class="flex mb-4">
-                  <div class="w-3/4">
+                  <div class="w-2/4">
                     <span>{{ availability.dateTime|date:"Y-m-d h:i:s a" }}</span>
                   </div>
-                  <div class="w-1/4">
+                  <div class="w-2/4">
                     <button
                       type="submit"
                       name="add_button"
-                      class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer w-full"
+                      class="text-center bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer w-full"
                       onclick="return confirmAdd()"
                     >
                       Select
@@ -113,6 +111,22 @@
               </form>
             {% endif %}
           {% endfor %}
+          <form method="POST" action="{% url 'request_more_availability' %}">
+            {% csrf_token %}
+            <input type="hidden" name="interviewID" value="{{ interview.id }}" />
+            {% if interview.requestMoreAvailability == False %}
+              <div class="w-full">
+                <button
+                  type="submit"
+                  name="add_button"
+                  class="text-center bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer w-full"
+                  onclick="return confirmAdd()"
+                >
+                  Request more availability
+                </button>
+              </div>
+            {% endif %}
+          </form>
         </div>
       {% endif %}
     {% endfor %}

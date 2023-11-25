@@ -62,27 +62,32 @@
   </div>
 </div>
 <div class="pl-4 pr-4 pb-4 md:pl-8 md:pr-8 md:pb-8">
-  <h2 id="additionalInformationTitle" class="hidden font-bold text-2xl text-white uppercase">
+  <h2 id="additionalInformationTitle{{interview.id}}" class="hidden font-bold text-2xl text-white uppercase">
     Interview
   </h2>
-  <div class="grid gap-4 grid-cols-2">
+  <div class="flex overflow-x-scroll">
     {% for submission in submissions %}
       {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
         <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var additionalInformationTitle = document.getElementById("additionalInformationTitle");
+            var additionalInformationTitle = document.getElementById("additionalInformationTitle{{interview.id}}");
             if (additionalInformationTitle) {
                 additionalInformationTitle.classList.remove("hidden");
             }
         });
         </script>
-        <div class="bg-white p-8 rounded shadow-md">
-          <form id="availabilityForm">
+        <div class="bg-white p-8 rounded shadow-md w-[300px] mr-8">
+          <form class="availabilityForm">
             <input type="hidden" name="interviewID" value="{{ submission.interviewID.id }}" />
             <input type="hidden" name="old_student_id" value="{{ submission.studentID.studentID }}" />
             <input type="hidden" name="old_last_name" value="{{ submission.studentID.lastName }}" />
             {% csrf_token %}
             <h3 class="mb-4 text-center font-bold text-xl text-MCC-primary-darker uppercase">Application #{{ submission.id }}</h3>
+            {% if submission.interviewID.requestMoreAvailability == True %}
+              <div class="mb-4">
+                <span class="w-full">The availabilities you previously submitted for this interview is not compatible with our schedule, please provide some more.</span>
+              </div>
+            {% endif %}
             <div class="mb-4">
               <label
                 for="interviewTime"
@@ -131,7 +136,7 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
   $(document).ready(function() {
-    $('#availabilityForm').submit(function(e) {
+    $('.availabilityForm').submit(function(e) {
       e.preventDefault();
 
       var form = $(this);
