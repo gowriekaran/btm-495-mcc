@@ -221,6 +221,8 @@ def interviews(request):
             isApproved=True
         ).first()
 
+        interview.details = "Waiting for Candidate to share availabilities."
+
         if matching_availability:
             interview.details = matching_availability.dateTime
 
@@ -266,6 +268,9 @@ def add_availability(request):
         ID = request.POST['interviewID']
         interview = Interview.objects.get(id=ID)
 
+        interview.requestMoreAvailability = False
+        interview.save()
+
         time = request.POST['interviewTime']
         date = request.POST['interviewDate']
 
@@ -291,5 +296,18 @@ def select_availability(request):
         
         availability.isApproved = True
         availability.save()
+        messages.success(request, "Record was updated!")
+        return redirect('interviews')
+
+@login_required
+def request_more_availability(request):
+    if request.method == 'POST':
+        interviewID = request.POST['interviewID']
+
+        interview = Interview.objects.get(id=interviewID)
+
+        interview.requestMoreAvailability = True
+        interview.save()
+        
         messages.success(request, "Record was updated!")
         return redirect('interviews')

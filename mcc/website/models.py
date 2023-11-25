@@ -80,15 +80,23 @@ class Interview(models.Model):
         (COMPLETED, 'Completed'),
     ]
 
+    REMOTE = "Remote"
+    PERSON = "In-Person"
+
+    STATUS_CHOICES_LOCATIONS = [
+        (REMOTE, 'Remote'),
+        (PERSON, 'In-Person'),
+    ]
+
     id = models.AutoField(primary_key=True)
     candidateID = models.ForeignKey(Candidate, on_delete=models.CASCADE)
-    dateTime = models.DateTimeField(null=True)
-    location = models.TextField(null=True)
+    location = models.TextField(default=REMOTE)
     feedback = models.TextField(null=True)
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=SCHEDULING)
+    requestMoreAvailability = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Interview: {self.id} - [{self.candidateID}] - {self.dateTime} - {self.location} - {self.feedback} - {self.status}"
+        return f"Interview: {self.id} - [{self.candidateID}] - {self.location} - {self.feedback} - {self.status} - {self.requestMoreAvailability}"
 
 class Availability(models.Model):
     id = models.AutoField(primary_key=True)
