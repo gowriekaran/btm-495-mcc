@@ -3,27 +3,16 @@
 <div class="flex sm:w-full justify-center p-4">
   {% if user.is_authenticated %}
   <div class="bg-white p-8 rounded shadow-md w-full md:w-1/2">
-    <h2 class="text-center font-bold">
+    <h2 class="text-center font-bold mb-4">
       Welcome to the MCC Team Management Tool!
     </h2>
-    <br />
-    <h3>Features available:</h3>
-    <ul class="list-disc">
-      <li>
-        <a
-          href="{% url 'positions' %}"
-          class="underline text-MCC-primary-darker font-bold"
-          >Manage Positions</a
-        >
-      </li>
-    </ul>
-    <br />
-    <h3>Features coming soon:</h3>
-    <ul class="list-disc">
-      <li>Manage Candidates</li>
-      <li>Manage Offers</li>
-      <li>Manage Interviews</li>
-    </ul>
+    <div class="grid grid-cols-4 gap-4">
+      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'positions' %}">Manage Positions</a>
+      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'applicants' %}">Manage Applicants</a>
+      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'candidates' %}">Manage Candidates</a>
+      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'interviews' %}">Manage Interviews</a>
+      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'offers' %}">Manage Offers</a>
+    </div>
   </div>
   {% else %}
   <div class="bg-white p-8 rounded shadow-md w-96">
