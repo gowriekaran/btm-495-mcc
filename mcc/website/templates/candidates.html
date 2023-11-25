@@ -21,28 +21,32 @@
         <tbody>
           {% for candidate in candidates %}
           <tr class="bg-MCC-secondary-tintererer">
-            <td class="border border-MCC-primary p-2">{{ candidate.submissionID.selectedPositionID.name }}</td>
-            <td class="border border-MCC-primary p-2">{{ candidate.studentID }}</td>
-            <td class="border border-MCC-primary p-2">{{ candidate.firstName }} {{ candidate.lastName }}</td>
-            <td class="border border-MCC-primary p-2">{{ candidate.email }}</td>
-            <td class="border border-MCC-primary p-2">{{ candidate.phoneNumber }}</td>
-            <td class="border border-MCC-primary p-2">{{ candidate.status }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ candidate.submissionID.selectedPositionID.name }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ candidate.studentID }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ candidate.firstName }} {{ candidate.lastName }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ candidate.email }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ candidate.phoneNumber }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ candidate.status }}</td>
             <td class="border border-MCC-primary p-2 text-center items-center">
-              <form method="POST" action="{% url 'add_candidate' %}">
-                {% csrf_token %}
-                <input
-                  type="hidden"
-                  name="ID"
-                  value="{{ candidate.id }}"
-                />
-                <button
-                  class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
-                  type="submit"
-                  onclick="return confirmAdd()"
-                >
-                  Create Interview
-                </button>
-              </form>
+              {% if candidate.status != "Interview" %}
+                <form method="POST" action="{% url 'add_interview' %}">
+                  {% csrf_token %}
+                  <input
+                    type="hidden"
+                    name="ID"
+                    value="{{ candidate.id }}"
+                  />
+                  <button
+                    class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
+                    type="submit"
+                    onclick="return confirmAdd()"
+                  >
+                    Interview
+                  </button>
+                </form>
+              {% else %}
+                <!-- <span>Candidate already has </span> -->
+              {% endif %}
             </td>
           </tr>
           {% endfor %}

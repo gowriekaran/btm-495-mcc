@@ -20,14 +20,14 @@
         <tbody>
           {% for applicant in applicants %}
           <tr class="bg-MCC-secondary-tintererer">
-            <td class="border border-MCC-primary p-2">{{ applicant.id }}</td>
-            <td class="border border-MCC-primary p-2">
+            <td class="text-center border border-MCC-primary p-2">{{ applicant.id }}</td>
+            <td class="text-center border border-MCC-primary p-2">
               {{ applicant.selectedPositionID.name }}
             </td>
-            <td class="border border-MCC-primary p-2">
+            <td class="text-center border border-MCC-primary p-2">
               {{ applicant.experience }}
             </td>
-            <td class="border border-MCC-primary p-2">
+            <td class="text-center border border-MCC-primary p-2">
               {{ applicant.dateSubmitted }}
             </td>
             <td class="border border-MCC-primary p-2">

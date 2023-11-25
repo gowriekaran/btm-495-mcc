@@ -1,8 +1,10 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
 
-<div class="flex sm:w-full justify-center p-4">
+<div class="p-4 md:p-8">
+  <h2 class="font-bold text-2xl text-white uppercase">
+    My Applications Centre
+  </h2>
   <div class="bg-white p-8 rounded shadow-md w-full">
-    <h2 class="text-center font-bold">Welcome to your applications!</h2>
     <div class="bg-MCC-secondary-tint rounded w-full p-4">
       <span>Student ID: {{ student.studentID }}</span>
       <br />
@@ -44,7 +46,14 @@
             <td class="border border-MCC-primary p-2">
               {{ submission.dateSubmitted }}
             </td>
-            <td class="border border-MCC-primary p-2">{{ submission.candidate_status }}</td>
+            <td class="border border-MCC-primary p-2">
+              {% if submission.candidate_status == "Interview" %}
+              <script>
+                // alert("Please give your interview availability for Application #{{ submission.id }}");
+              </script>
+              {% endif %}
+              {{ submission.candidate_status }}
+            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -52,5 +61,98 @@
     </div>
   </div>
 </div>
+<div class="pl-4 pr-4 pb-4 md:pl-8 md:pr-8 md:pb-8">
+  <h2 id="additionalInformationTitle" class="hidden font-bold text-2xl text-white uppercase">
+    Interview
+  </h2>
+  <div class="grid gap-4 grid-cols-2">
+    {% for submission in submissions %}
+      {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var additionalInformationTitle = document.getElementById("additionalInformationTitle");
+            if (additionalInformationTitle) {
+                additionalInformationTitle.classList.remove("hidden");
+            }
+        });
+        </script>
+        <div class="bg-white p-8 rounded shadow-md">
+          <form id="availabilityForm">
+            <input type="hidden" name="interviewID" value="{{ submission.interviewID.id }}" />
+            <input type="hidden" name="old_student_id" value="{{ submission.studentID.studentID }}" />
+            <input type="hidden" name="old_last_name" value="{{ submission.studentID.lastName }}" />
+            {% csrf_token %}
+            <h3 class="mb-4 text-center font-bold text-xl text-MCC-primary-darker uppercase">Application #{{ submission.id }}</h3>
+            <div class="mb-4">
+              <label
+                for="interviewTime"
+                class="block text-MCC-primary-darker font-semibold"
+                >Time</label>
+                <input
+                  type="time"
+                  id="interviewTime"
+                  name="interviewTime"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+                  required
+                />
+            </div>
+            <div class="mb-4">
+              <label
+                for="interviewDate"
+                class="block text-MCC-primary-darker font-semibold"
+                >Date</label>
+                <input
+                  type="date"
+                  id="interviewDate"
+                  name="interviewDate"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+                  required
+                />
+            </div>
+            <button
+              type="submit"
+              name="add_button"
+              class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+              onclick="return confirmAdd()"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+<script>
+  function confirmAdd() {
+    return confirm("Are you sure?");
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#availabilityForm').submit(function(e) {
+      e.preventDefault();
+
+      var form = $(this);
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url "add_availability" %}',
+        data: form.serialize(),
+        success: function(response) {
+          console.log(response);
+
+          showToast("Availability submitted successfully! That form will now reset. Feel free to share more :)");
+
+          form.trigger('reset');
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    });
+  });
+</script>
 
 {% endblock %}

@@ -8,6 +8,9 @@ from .models import Student
 from .models import Candidate
 from .models import Submission
 from .models import Interview
+from .models import Availability
+from django.http import JsonResponse
+
 
 def home(request):
     return render(request, 'home.html', {})
@@ -147,6 +150,10 @@ def view_student_applications(request):
 
         if matching_candidate:
             submission.candidate_status = matching_candidate.status
+
+            if(matching_candidate.status == "Interview"):
+                interviewID = Interview.objects.get(candidateID=matching_candidate)
+                submission.interviewID = interviewID
         else:
             submission.candidate_status = "Application Received"
 
@@ -206,4 +213,83 @@ def candidates(request):
 @login_required
 def interviews(request):
     interviews = Interview.objects.all().order_by('id')
-    return render(request, 'interviews.html', {"interviews": interviews})
+    availabilities = Availability.objects.all().order_by('id')
+
+    for interview in interviews:
+        matching_availability = availabilities.filter(
+            interviewID__id=interview.id,
+            isApproved=True
+        ).first()
+
+        if matching_availability:
+            interview.details = matching_availability.dateTime
+
+    return render(request, 'interviews.html', {"interviews": interviews, "availabilities": availabilities})
+
+@login_required
+def add_interview(request):
+    if request.method == 'POST':
+        ID = request.POST['ID']
+        candidate = Candidate.objects.get(id=ID)
+        candidate.status = 'Interview'
+        candidate.save()
+
+        interview = Interview(candidateID=candidate)
+        interview.save()
+        messages.success(request, "Record was added!")
+    return redirect('candidates')
+
+@login_required
+def cancel_interview(request):
+    if request.method == 'POST':
+        ID = request.POST['ID']
+        candidate = Candidate.objects.get(id=ID)
+        candidate.status = 'Candidate'
+        candidate.save()
+
+        interview = Interview.objects.get(candidateID=candidate)
+        availabilities = Availability.objects.filter(interviewID=interview.id)
+        for availability in availabilities:
+            availability.delete()
+        interview.delete()
+        messages.success(request, "Record was deleted!")
+    return redirect('interviews')
+
+def add_availability(request):
+    if request.method == 'POST':
+        studentID = request.POST['old_student_id']
+        lastName = request.POST['old_last_name']
+
+        student = Student.objects.filter(Q(studentID=studentID) & Q(lastName=lastName)).first()
+        submissions = Submission.objects.filter(studentID=student)
+
+        ID = request.POST['interviewID']
+        interview = Interview.objects.get(id=ID)
+
+        time = request.POST['interviewTime']
+        date = request.POST['interviewDate']
+
+        datetime = f'{date}T{time}'
+
+        availability = Availability(interviewID=interview, dateTime=datetime)
+        availability.save()
+        messages.success(request, "Record was added!")
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+@login_required
+def select_availability(request):
+    if request.method == 'POST':
+        interviewID = request.POST['interviewID']
+        availabilityID = request.POST['availabilityID']
+
+        interview = Interview.objects.get(id=interviewID)
+        availability = Availability.objects.get(id=availabilityID)
+
+        interview.status = "Scheduled"
+        interview.save()
+        
+        availability.isApproved = True
+        availability.save()
+        messages.success(request, "Record was updated!")
+        return redirect('interviews')
