@@ -24,7 +24,8 @@
       <div class="container mx-auto">
         <div class="text-left">
           <p class="md:text-lg text-center font-bold">
-            This app is in beta stage. Features may contain bugs or be incomplete.
+            This app is in beta stage. Features may contain bugs or be
+            incomplete.
           </p>
         </div>
       </div>
@@ -143,6 +144,15 @@
                 href="{% url 'interviews' %}"
                 data-te-nav-link-ref
                 >Interviews</a
+              >
+            </li>
+            <!-- Offers link -->
+            <li class="mb-4 md:mb-0 md:pr-2" data-te-nav-item-ref>
+              <a
+                class="text-MCC-primary-darkerer transition duration-200 hover:text-MCC-primary-darkererer hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none md:px-2 [&.active]:text-black/90"
+                href="{% url 'offers' %}"
+                data-te-nav-link-ref
+                >Offers</a
               >
             </li>
             <!-- Logout link -->

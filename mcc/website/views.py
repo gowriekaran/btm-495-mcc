@@ -9,6 +9,7 @@ from .models import Candidate
 from .models import Submission
 from .models import Interview
 from .models import Availability
+from .models import Offer
 from django.http import JsonResponse
 
 
@@ -157,6 +158,9 @@ def view_student_applications(request):
                 if(interviewID.status == "Scheduled"):
                     availability = Availability.objects.filter(Q(isApproved=True) & Q(interviewID=interviewID)).first()
                     submission.availability = availability
+            if(matching_candidate.status == "Offered"):
+                offerID = Offer.objects.filter(Q(candidateID=matching_candidate) & Q(status="Pending")).first()
+                submission.offerID = offerID
         else:
             submission.candidate_status = "Application Received"
 
@@ -314,3 +318,53 @@ def request_more_availability(request):
         
         messages.success(request, "Record was updated!")
         return redirect('interviews')
+    
+@login_required
+def offers(request):
+    offers = Offer.objects.all().order_by('id')
+    return render(request, 'offers.html', {"offers": offers})
+
+@login_required
+def add_offer(request):
+    if request.method == 'POST':
+        candidateID = request.POST['candidateID']
+        offerDetails = request.POST['offerDetails']
+
+        candidate = Candidate.objects.get(id=candidateID)
+        candidate.status = 'Offered'
+        candidate.save()
+
+        offer = Offer(details = offerDetails, candidateID = candidate)
+        offer.save()
+        messages.success(request, "Record was added!")
+    return redirect('candidates')
+
+def accept_offer(request):
+    if request.method == 'POST':
+        offerID = request.POST['offerID']
+        offer = Offer.objects.get(id=offerID)
+        offer.status = "Accepted"
+        offer.save()
+
+        candidate = Candidate.objects.get(id=offer.candidateID.id)
+        candidate.status = "Hired"
+        candidate.save()
+
+        messages.success(request, "Record was updated!")
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+def reject_offer(request):
+    if request.method == 'POST':
+        offerID = request.POST['offerID']
+        offer = Offer.objects.get(id=offerID)
+        offer.status = "Rejected"
+        offer.save()
+        
+        candidate = Candidate.objects.get(id=offer.candidateID.id)
+        candidate.status = "Rejected"
+        candidate.save()
+
+        messages.success(request, "Record was updated!")
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})

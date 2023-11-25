@@ -109,3 +109,25 @@ class Availability(models.Model):
         localized_time = timezone.localtime(self.dateTime, project_timezone)
 
         return f"Availability: {self.id} - [{self.interviewID}] - {localized_time.strftime('%Y-%m-%d %H:%M:%S')} - {self.isApproved}"
+    
+class Offer(models.Model):
+    PENDING = "Pending"
+    ACCEPTED = "Accepted"
+    REJECTED = "Rejected"
+    EXPIRED = "Expired"
+
+    STATUS_CHOICES = [
+        (PENDING, 'Pending'),
+        (ACCEPTED, 'Accepted'),
+        (REJECTED, 'Rejected'),
+        (EXPIRED, 'Expired'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    details = models.TextField()
+    candidateID = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=PENDING)
+
+    def __str__(self):
+
+        return f"Offer: {self.id} - {self.details} - [{self.candidateID}] - {self.status}"

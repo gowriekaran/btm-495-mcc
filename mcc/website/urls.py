@@ -22,6 +22,10 @@ urlpatterns = [
     path("request_more_availability/", views.request_more_availability, name='request_more_availability'),
     path("cancel-interview/", views.cancel_interview, name='cancel_interview'),
     path("add_candidate/", views.add_candidate, name='add_candidate'),
+    path("add_offer/", views.add_offer, name='add_offer'),
+    path("accept_offer/", views.accept_offer, name='accept_offer'),
+    path("reject_offer/", views.reject_offer, name='reject_offer'),
     path("interviews/", views.interviews, name='interviews'),
+    path("offers/", views.offers, name='offers'),
     path("logout/", views.logout_user, name='logout'),
 ]

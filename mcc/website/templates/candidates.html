@@ -5,7 +5,7 @@
     <h2 class="font-bold text-2xl text-white uppercase">Candidates</h2>
   </div>
   <div class="bg-white p-8 rounded shadow-md w-full">
-    <div class="overflow-scroll lg:overflow-hidden">
+    <div class="overflow-x-scroll lg:overflow-hidden">
       <table class="w-full border table-auto">
         <thead>
           <tr class="bg-MCC-secondary-tint">
@@ -28,7 +28,7 @@
             <td class="text-center border border-MCC-primary p-2">{{ candidate.phoneNumber }}</td>
             <td class="text-center border border-MCC-primary p-2">{{ candidate.status }}</td>
             <td class="border border-MCC-primary p-2 text-center items-center">
-              {% if candidate.status != "Interview" %}
+              {% if candidate.status == "Candidate" %}
                 <form method="POST" action="{% url 'add_interview' %}">
                   {% csrf_token %}
                   <input
@@ -37,15 +37,22 @@
                     value="{{ candidate.id }}"
                   />
                   <button
-                    class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
+                    class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4 w-full"
                     type="submit"
                     onclick="return confirmAdd()"
                   >
                     Interview
                   </button>
                 </form>
-              {% else %}
-                <!-- <span>Candidate already has </span> -->
+              {% elif candidate.status == "Interview" or candidate.status == "Rejected" %}
+                <button
+                  class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4 w-full"
+                  type="submit"
+                  id="offerBtn"
+                  onclick='showForm("{{candidate.submissionID.selectedPositionID.name}}","{{candidate.id}}","{{candidate.firstName}} {{candidate.lastName}}")'
+                >
+                  Offer
+                </button>
               {% endif %}
             </td>
           </tr>
@@ -55,7 +62,71 @@
     </div>
   </div>
 </div>
+<div class="pl-4 pr-4 pb-4 md:pl-8 md:pr-8 md:pb-8 hidden" id="offerFormContainer">
+  <div class="w-full">
+    <h2 class="font-bold text-2xl text-white uppercase">Offer</h2>
+    <div class="bg-white p-8 rounded shadow-md">
+      <form id="offerForm" method="POST" action="{% url 'add_offer' %}">
+        <input type="hidden" id="candidateID" name="candidateID" value="" />
+        {% csrf_token %}
+        <h3 id="positionName" class="capitalize mb-4 text-center font-bold text-xl text-MCC-primary-darker"></h3>
+        <div class="mb-4">
+          <label
+            for="offerDetails"
+            class="block text-MCC-primary-darker font-semibold"
+            >Offer Details</label
+          >
+          <textarea
+            id="offerDetails"
+            name="offerDetails"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-MCC-primary-darker"
+            placeholder="Enter Offer Details"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+        <div class="flex gap-2 justify-center">
+          <button
+            class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+            type="submit"
+            onclick="return confirmAdd()"
+          >
+            Create Offer
+          </button>
+          <button
+            type="submit"
+            name="cancel_button"
+            class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer"
+            onclick="refreshPage(event)"
+          >
+          Cancel
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 <script>
+  function showForm(positionNameText, candidateIDValue, candidateName){
+    const offerFormContainer = document.getElementById('offerFormContainer');
+    const positionName = document.getElementById('positionName');
+    const candidateID = document.getElementById('candidateID');
+
+    offerFormContainer.classList.remove('hidden');
+    positionName.textContent = "For: " + candidateName + ", Position: " + positionNameText;
+    candidateID.value = candidateIDValue;
+  }
+
+  function refreshPage(event) {
+    event.preventDefault();
+
+    var userConfirmed = confirm("Are you sure?");
+    if (userConfirmed) {
+      showToast("Record was not added!");
+      location.reload();
+    }
+  }
+
   function confirmAdd() {
     return confirm("Are you sure?");
   }

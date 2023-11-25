@@ -18,7 +18,7 @@
       <br />
     </div>
     <br />
-    <div class="overflow-scroll md:overflow-hidden">
+    <div class="overflow-x-scroll md:overflow-hidden">
       <table class="w-full border table-auto">
         <thead>
           <tr class="bg-MCC-secondary-tint">
@@ -30,7 +30,6 @@
               Experience
             </th>
             <th class="text-center border border-MCC-primary p-2">Date Submitted</th>
-            <th class="text-center border border-MCC-primary p-2">Status</th>
             <th class="text-center border border-MCC-primary p-2">Details</th>
           </tr>
         </thead>
@@ -47,18 +46,57 @@
             <td class="text-center border border-MCC-primary p-2">
               {{ submission.dateSubmitted }}
             </td>
-            <td class="text-center border border-MCC-primary p-2">
-              {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
-              <script>
-                showToast("Please give your interview availability for Application #{{ submission.id }}");
-              </script>
-              {% endif %}
-              {{ submission.candidate_status }}
-            </td>
+            {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
+            <script>
+              showToast("Please give your interview availability for Application #{{ submission.id }}");
+            </script>
+            {% endif %}
             <td class="border border-MCC-primary p-2">
               {% if submission.candidate_status == "Interview" and submission.interviewID.status == "Scheduled" %}
                 Location: {{ submission.interviewID.location }}<br>
                 Date & Time: {{ submission.availability.dateTime }}
+              {% elif submission.candidate_status == "Offered" %}
+                {% if submission.offerID.status == "Pending" %}
+                  <div>
+                    <span class="w-full">
+                      {{ submission.offerID.details }}
+                    </span>
+                    <div class="flex gap-2 mt-4">
+                      <div class="w-1/2">
+                        <form class="acceptForm">
+                          <input type="hidden" name="offerID" value="{{ submission.offerID.id }}" />
+                          {% csrf_token %}
+                          <button
+                            class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4 w-full"
+                            type="submit"
+                            id="offerBtn"
+                          >
+                            Accept Offer
+                          </button>
+                        </form>
+                      </div>
+                      <div class="w-1/2">
+                        <form class="rejectForm">
+                          <input type="hidden" name="offerID" value="{{ submission.offerID.id }}" />
+                          {% csrf_token %}
+                          <button
+                            class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4 w-full"
+                            type="submit"
+                            id="offerBtn"
+                          >
+                            Reject Offer
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                {% elif submission.offerID.status == "Accepted" %}
+                  <span>Offer was accepted.</span>
+                {% elif submission.offerID.status == "Rejected" %}
+                  <span>Offer was rejected.</span>
+                {% elif submission.offerID.status == "Expired" %}
+                  <span>Unfortunately, the offer has expired.</span>
+                {% endif %}
               {% endif %}
             </td>
           </tr>
@@ -72,14 +110,16 @@
   <h2 id="additionalInformationTitle{{interview.id}}" class="hidden font-bold text-2xl text-white uppercase">
     Interview
   </h2>
-  <div class="flex overflow-x-scroll">
+  <div id="additionalInformationTitle{{interview.id}}Container" class="flex overflow-x-scroll hidden">
     {% for submission in submissions %}
       {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
         <script>
         document.addEventListener("DOMContentLoaded", function() {
             var additionalInformationTitle = document.getElementById("additionalInformationTitle{{interview.id}}");
+            var additionalInformationContainer = document.getElementById("additionalInformationTitle{{interview.id}}Container");
             if (additionalInformationTitle) {
                 additionalInformationTitle.classList.remove("hidden");
+                additionalInformationContainer.classList.remove("hidden");
             }
         });
         </script>
@@ -158,6 +198,50 @@
           showToast("Availability submitted successfully! That form will now reset. Feel free to share more :)");
 
           form.trigger('reset');
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    });
+
+    $('.acceptForm').submit(function(e) {
+      e.preventDefault();
+
+      var form = $(this);
+
+      $(this).parent().parent().parent().remove();
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url "accept_offer" %}',
+        data: form.serialize(),
+        success: function(response) {
+          console.log(response);
+
+          showToast("Offer accepted successfully!");
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    });
+
+    $('.rejectForm').submit(function(e) {
+      e.preventDefault();
+
+      var form = $(this);
+
+      $(this).parent().parent().parent().remove();
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url "reject_offer" %}',
+        data: form.serialize(),
+        success: function(response) {
+          console.log(response);
+
+          showToast("Offer rejected successfully!");
         },
         error: function(error) {
           console.log(error);
