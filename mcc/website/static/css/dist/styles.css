@@ -829,10 +829,6 @@ select {
   display: table;
 }
 
-.grid {
-  display: grid;
-}
-
 .hidden {
   display: none;
 }
@@ -853,12 +849,8 @@ select {
   width: 50%;
 }
 
-.w-1\/4 {
-  width: 25%;
-}
-
-.w-3\/4 {
-  width: 75%;
+.w-2\/4 {
+  width: 50%;
 }
 
 .w-7 {
@@ -869,6 +861,10 @@ select {
   width: 24rem;
 }
 
+.w-\[300px\] {
+  width: 300px;
+}
+
 .w-auto {
   width: auto;
 }
@@ -877,32 +873,12 @@ select {
   width: 100%;
 }
 
-.w-\[300px\] {
-  width: 300px;
-}
-
-.w-\[400px\] {
-  width: 400px;
-}
-
-.w-2\/4 {
-  width: 50%;
-}
-
 .min-w-\[200px\] {
   min-width: 200px;
 }
 
 .min-w-\[300px\] {
   min-width: 300px;
-}
-
-.max-w-\[300px\] {
-  max-width: 300px;
-}
-
-.max-w-\[400px\] {
-  max-width: 400px;
 }
 
 .flex-1 {
@@ -923,14 +899,6 @@ select {
 
 .list-disc {
   list-style-type: disc;
-}
-
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.grid-cols-4 {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .flex-col {
@@ -959,10 +927,6 @@ select {
 
 .justify-between {
   justify-content: space-between;
-}
-
-.gap-4 {
-  gap: 1rem;
 }
 
 .overflow-scroll {

@@ -154,6 +154,9 @@ def view_student_applications(request):
             if(matching_candidate.status == "Interview"):
                 interviewID = Interview.objects.get(candidateID=matching_candidate)
                 submission.interviewID = interviewID
+                if(interviewID.status == "Scheduled"):
+                    availability = Availability.objects.filter(Q(isApproved=True) & Q(interviewID=interviewID)).first()
+                    submission.availability = availability
         else:
             submission.candidate_status = "Application Received"
 

@@ -22,37 +22,44 @@
       <table class="w-full border table-auto">
         <thead>
           <tr class="bg-MCC-secondary-tint">
-            <th class="border border-MCC-primary p-2">Application ID</th>
-            <th class="border border-MCC-primary p-2">
+            <th class="text-center border border-MCC-primary p-2">Application ID</th>
+            <th class="text-center border border-MCC-primary p-2">
               Selected Position
             </th>
-            <th class="border border-MCC-primary p-2">
+            <th class="text-center border border-MCC-primary p-2">
               Experience
             </th>
-            <th class="border border-MCC-primary p-2">Date Submitted</th>
-            <th class="border border-MCC-primary p-2">Status</th>
+            <th class="text-center border border-MCC-primary p-2">Date Submitted</th>
+            <th class="text-center border border-MCC-primary p-2">Status</th>
+            <th class="text-center border border-MCC-primary p-2">Details</th>
           </tr>
         </thead>
         <tbody>
           {% for submission in submissions %}
           <tr class="bg-MCC-secondary-tintererer">
-            <td class="border border-MCC-primary p-2">{{ submission.id }}</td>
-            <td class="border border-MCC-primary p-2">
+            <td class="text-center border border-MCC-primary p-2">{{ submission.id }}</td>
+            <td class="text-center border border-MCC-primary p-2">
               {{ submission.selectedPositionID.name }}
             </td>
-            <td class="border border-MCC-primary p-2">
+            <td class="text-center border border-MCC-primary p-2">
               {{ submission.experience }}
             </td>
-            <td class="border border-MCC-primary p-2">
+            <td class="text-center border border-MCC-primary p-2">
               {{ submission.dateSubmitted }}
             </td>
-            <td class="border border-MCC-primary p-2">
-              {% if submission.candidate_status == "Interview" %}
+            <td class="text-center border border-MCC-primary p-2">
+              {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
               <script>
-                // alert("Please give your interview availability for Application #{{ submission.id }}");
+                showToast("Please give your interview availability for Application #{{ submission.id }}");
               </script>
               {% endif %}
               {{ submission.candidate_status }}
+            </td>
+            <td class="border border-MCC-primary p-2">
+              {% if submission.candidate_status == "Interview" and submission.interviewID.status == "Scheduled" %}
+                Location: {{ submission.interviewID.location }}<br>
+                Date & Time: {{ submission.availability.dateTime }}
+              {% endif %}
             </td>
           </tr>
           {% endfor %}
