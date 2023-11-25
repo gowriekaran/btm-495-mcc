@@ -18,6 +18,7 @@ urlpatterns = [
     path("candidates/", views.candidates, name='candidates'),
     path("add_interview/", views.add_interview, name='add_interview'),
     path("add_availability/", views.add_availability, name='add_availability'),
+    path("select_availability/", views.select_availability, name='select_availability'),
     path("cancel-interview/", views.cancel_interview, name='cancel_interview'),
     path("add_candidate/", views.add_candidate, name='add_candidate'),
     path("interviews/", views.interviews, name='interviews'),

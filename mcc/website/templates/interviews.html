@@ -9,21 +9,24 @@
       <table class="w-full border table-auto">
         <thead>
           <tr class="bg-MCC-secondary-tint">
+            <th class="border border-MCC-primary p-2">Interview ID</th>
             <th class="border border-MCC-primary p-2">Position</th>
             <th class="border border-MCC-primary p-2">Date & Time</th>
             <th class="border border-MCC-primary p-2">Location</th>
             <th class="border border-MCC-primary p-2">Candidate</th>
             <th class="border border-MCC-primary p-2">Feedback</th>
             <th class="border border-MCC-primary p-2">Status</th>
+            <th class="border border-MCC-primary p-2">Details</th>
             <th class="border border-MCC-primary p-2">Action</th>
           </tr>
         </thead>
         <tbody>
           {% for interview in interviews %}
           <tr class="bg-MCC-secondary-tintererer">
-            <td class="border border-MCC-primary p-2">{{ interview.candidateID.submissionID.selectedPositionID.name }}</td>
-            <td class="border border-MCC-primary p-2">{{ interview.dateTime }}</td>
-            <td class="border border-MCC-primary p-2">{{ interview.location}} </td>
+            <td class="text-center border border-MCC-primary p-2">{{ interview.id }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ interview.candidateID.submissionID.selectedPositionID.name }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ interview.dateTime }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ interview.location}} </td>
             <td class="border border-MCC-primary p-2">
               <span>Student ID: {{ interview.candidateID.studentID }}</span>
               <br>
@@ -33,9 +36,10 @@
               <br>
               <span>Email: {{ interview.candidateID.email }}</span>
             </td>
-            <td class="border border-MCC-primary p-2">{{ interview.feedback }}</td>
-            <td class="border border-MCC-primary p-2">{{ interview.status }}</td>
-            <td class="border border-MCC-primary p-2">
+            <td class="text-center border border-MCC-primary p-2">{{ interview.feedback }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ interview.status }}</td>
+            <td class="text-center border border-MCC-primary p-2">{{ interview.details }}</td>
+            <td class="text-center border border-MCC-primary p-2">
               <form method="POST" action="{% url 'cancel_interview' %}">
                 {% csrf_token %}
                 <input
@@ -58,6 +62,61 @@
       </table>
     </div>
   </div>
+</div>
+<div class="pl-4 pr-4 pb-4 md:pl-8 md:pr-8 md:pb-8">
+  <h2 id="additionalInformationTitle" class="font-bold text-2xl text-white uppercase hidden">
+    Availabilities
+  </h2>
+  <div class="grid gap-4 grid-cols-4 overflow-scroll">
+     {% for interview in interviews %}
+      {% if interview.status == "Scheduling" %}
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+              var additionalInformationTitle = document.getElementById("additionalInformationTitle");
+              if (additionalInformationTitle) {
+                  additionalInformationTitle.classList.remove("hidden");
+              }
+          });
+        </script>
+        <div class="bg-white p-8 rounded shadow-md">
+          <h3 class="mb-4 text-center font-bold text-xl text-MCC-primary-darker uppercase">Interview #{{ interview.id }}</h3>
+          <span id="additionalInformationSubTitle" class="w-full text-center">Waiting for Candidate to share availabilities.</span>
+          {% for availability in availabilities %}
+            {% if availability.interviewID.id == interview.id %}
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var additionalInformationSubTitle = document.getElementById("additionalInformationSubTitle");
+                    if (additionalInformationSubTitle) {
+                        additionalInformationSubTitle.classList.add("hidden");
+                    }
+                });
+              </script>
+              <form method="POST" action="{% url 'select_availability' %}">
+                {% csrf_token %}
+                <input type="hidden" name="interviewID" value="{{ interview.id }}" />
+                <input type="hidden" name="availabilityID" value="{{ availability.id }}" />
+                <div class="flex mb-4">
+                  <div class="w-3/4">
+                    <span>{{ availability.dateTime|date:"Y-m-d h:i:s a" }}</span>
+                  </div>
+                  <div class="w-1/4">
+                    <button
+                      type="submit"
+                      name="add_button"
+                      class="bg-MCC-primary-darker text-white px-4 py-2 rounded-md hover:bg-MCC-primary-darkererer w-full"
+                      onclick="return confirmAdd()"
+                    >
+                      Select
+                    </button>
+                  </div>
+                </div>
+              </form>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div> 
 </div>
 <script>
   function confirmCancel() {

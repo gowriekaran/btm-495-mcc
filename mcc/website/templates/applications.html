@@ -62,12 +62,20 @@
   </div>
 </div>
 <div class="pl-4 pr-4 pb-4 md:pl-8 md:pr-8 md:pb-8">
-  <h2 class="font-bold text-2xl text-white uppercase">
+  <h2 id="additionalInformationTitle" class="hidden font-bold text-2xl text-white uppercase">
     Interview
   </h2>
   <div class="grid gap-4 grid-cols-2">
     {% for submission in submissions %}
-      {% if submission.candidate_status == "Interview" %}
+      {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var additionalInformationTitle = document.getElementById("additionalInformationTitle");
+            if (additionalInformationTitle) {
+                additionalInformationTitle.classList.remove("hidden");
+            }
+        });
+        </script>
         <div class="bg-white p-8 rounded shadow-md">
           <form id="availabilityForm">
             <input type="hidden" name="interviewID" value="{{ submission.interviewID.id }}" />
@@ -135,7 +143,7 @@
         success: function(response) {
           console.log(response);
 
-          alert("availability submitted successfully! That form will now reset. Feel free to share more :)");
+          showToast("Availability submitted successfully! That form will now reset. Feel free to share more :)");
 
           form.trigger('reset');
         },

@@ -34,11 +34,11 @@
           <tbody>
             {% for position in positions %}
             <tr class="bg-MCC-secondary-tintererer">
-              <td class="border border-MCC-primary p-2">{{ position.id }}</td>
-              <td class="border border-MCC-primary p-2 min-w-[200px]">{{ position.name }}</td>
-              <td class="border border-MCC-primary p-2 min-w-[200px]">{{ position.description }}</td>
-              <td class="border border-MCC-primary p-2">{{ position.status }}</td>
-              <td class="border border-MCC-primary p-2">
+              <td class="text-center border border-MCC-primary p-2">{{ position.id }}</td>
+              <td class="text-center border border-MCC-primary p-2 min-w-[200px]">{{ position.name }}</td>
+              <td class="text-center border border-MCC-primary p-2 min-w-[200px]">{{ position.description }}</td>
+              <td class="text-center border border-MCC-primary p-2">{{ position.status }}</td>
+              <td class="text-center border border-MCC-primary p-2">
                 <div class="flex">
                   <span class="w-1/2 text-center">
                     <form method="POST" action="{% url 'edit_position' %}">

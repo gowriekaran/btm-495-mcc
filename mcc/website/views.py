@@ -213,7 +213,18 @@ def candidates(request):
 @login_required
 def interviews(request):
     interviews = Interview.objects.all().order_by('id')
-    return render(request, 'interviews.html', {"interviews": interviews})
+    availabilities = Availability.objects.all().order_by('id')
+
+    for interview in interviews:
+        matching_availability = availabilities.filter(
+            interviewID__id=interview.id,
+            isApproved=True
+        ).first()
+
+        if matching_availability:
+            interview.details = matching_availability.dateTime
+
+    return render(request, 'interviews.html', {"interviews": interviews, "availabilities": availabilities})
 
 @login_required
 def add_interview(request):
@@ -225,6 +236,7 @@ def add_interview(request):
 
         interview = Interview(candidateID=candidate)
         interview.save()
+        messages.success(request, "Record was added!")
     return redirect('candidates')
 
 @login_required
@@ -236,10 +248,13 @@ def cancel_interview(request):
         candidate.save()
 
         interview = Interview.objects.get(candidateID=candidate)
+        availabilities = Availability.objects.filter(interviewID=interview.id)
+        for availability in availabilities:
+            availability.delete()
         interview.delete()
+        messages.success(request, "Record was deleted!")
     return redirect('interviews')
 
-@login_required
 def add_availability(request):
     if request.method == 'POST':
         studentID = request.POST['old_student_id']
@@ -254,16 +269,27 @@ def add_availability(request):
         time = request.POST['interviewTime']
         date = request.POST['interviewDate']
 
-        print(time)
-        print(date)
-
         datetime = f'{date}T{time}'
 
         availability = Availability(interviewID=interview, dateTime=datetime)
         availability.save()
-
-        # Return JSON response indicating success or failure
+        messages.success(request, "Record was added!")
         return JsonResponse({'status': 'success'})
-
-    # Return JSON response if the request method is not POST
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+@login_required
+def select_availability(request):
+    if request.method == 'POST':
+        interviewID = request.POST['interviewID']
+        availabilityID = request.POST['availabilityID']
+
+        interview = Interview.objects.get(id=interviewID)
+        availability = Availability.objects.get(id=availabilityID)
+
+        interview.status = "Scheduled"
+        interview.save()
+        
+        availability.isApproved = True
+        availability.save()
+        messages.success(request, "Record was updated!")
+        return redirect('interviews')
