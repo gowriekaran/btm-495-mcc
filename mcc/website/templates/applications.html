@@ -34,7 +34,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for submission in submissions %}
+        {% for submission in submissions %}
           <tr class="bg-MCC-secondary-tintererer">
             <td class="text-center border border-MCC-primary p-2">{{ submission.id }}</td>
             <td class="text-center border border-MCC-primary p-2">
@@ -46,13 +46,14 @@
             <td class="text-center border border-MCC-primary p-2">
               {{ submission.dateSubmitted }}
             </td>
-            {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
-            <script>
-              showToast("Please give your interview availability for Application #{{ submission.id }}");
-            </script>
-            {% endif %}
             <td class="border border-MCC-primary p-2">
-              {% if submission.candidate_status == "Interview" and submission.interviewID.status == "Scheduled" %}
+              {% if submission.candidate_status == "Interview" and submission.interviewID.status != "Scheduled" %}
+              Please give your interview availability for Application #{{ submission.id }}
+              {% elif submission.candidate_status == "Application Received" %}
+                Application Received
+              {% elif submission.candidate_status == "Candidate" %}
+                {{ submission.candidate_status }}
+              {% elif submission.candidate_status == "Interview" and submission.interviewID.status == "Scheduled" %}
                 Location: {{ submission.interviewID.location }}<br>
                 Date & Time: {{ submission.availability.dateTime }}
               {% elif submission.candidate_status == "Offered" %}

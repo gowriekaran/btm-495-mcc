@@ -215,6 +215,16 @@ def add_candidate(request):
 @login_required
 def candidates(request):
     candidates = Candidate.objects.all().order_by('id')
+    interviews = Interview.objects.all().order_by('id')
+
+    for candidate in candidates:
+        matching_interview = interviews.filter(
+            candidateID_id=candidate.id
+        ).first()
+
+        if matching_interview:
+            candidate.interview_status = matching_interview.status
+
     return render(request, 'candidates.html', {"candidates": candidates})
 
 @login_required
@@ -368,3 +378,15 @@ def reject_offer(request):
         messages.success(request, "Record was updated!")
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+@login_required
+def interview_completed(request):
+    if request.method == 'POST':
+        interviewID = request.POST['interviewID']
+
+        interview = Interview.objects.get(id=interviewID)
+        interview.status = 'Completed'
+        interview.save()
+
+        messages.success(request, "Record was updated!")
+    return redirect('candidates')

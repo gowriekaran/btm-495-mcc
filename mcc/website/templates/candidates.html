@@ -45,14 +45,16 @@
                   </button>
                 </form>
               {% elif candidate.status == "Interview" or candidate.status == "Rejected" %}
-                <button
-                  class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4 w-full"
-                  type="submit"
-                  id="offerBtn"
-                  onclick='showForm("{{candidate.submissionID.selectedPositionID.name}}","{{candidate.id}}","{{candidate.firstName}} {{candidate.lastName}}")'
-                >
-                  Offer
-                </button>
+                {% if candidate.interview_status == "Completed" %}
+                  <button
+                    class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4 w-full"
+                    type="submit"
+                    id="offerBtn"
+                    onclick='showForm("{{candidate.submissionID.selectedPositionID.name}}","{{candidate.id}}","{{candidate.firstName}} {{candidate.lastName}}")'
+                  >
+                    Offer
+                  </button>
+                {% endif %}
               {% endif %}
             </td>
           </tr>

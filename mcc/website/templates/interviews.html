@@ -38,21 +38,40 @@
             <td class="text-center border border-MCC-primary p-2">{{ interview.status }}</td>
             <td class="text-center border border-MCC-primary p-2">{{ interview.details }}</td>
             <td class="text-center border border-MCC-primary p-2">
-              <form method="POST" action="{% url 'cancel_interview' %}">
-                {% csrf_token %}
-                <input
-                  type="hidden"
-                  name="ID"
-                  value="{{ interview.candidateID.id }}"
-                />
-                <button
-                  class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
-                  type="submit"
-                  onclick="return confirmCancel()"
-                >
-                  Cancel Interview
-                </button>
-              </form>
+              {% if interview.status != "Completed" %}
+                <div class="flex gap-2">
+                  <form class="w-1/2" method="POST" action="{% url 'cancel_interview' %}">
+                    {% csrf_token %}
+                    <input
+                      type="hidden"
+                      name="ID"
+                      value="{{ interview.candidateID.id }}"
+                    />
+                    <button
+                      class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
+                      type="submit"
+                      onclick="return confirmCancel()"
+                    >
+                      Cancel Interview
+                    </button>
+                  </form>
+                  <form class="w-1/2" method="POST" action="{% url 'interview_completed' %}">
+                    {% csrf_token %}
+                    <input
+                      type="hidden"
+                      name="interviewID"
+                      value="{{ interview.id }}"
+                    />
+                    <button
+                      class="bg-MCC-secondary-tint rounded text-black shadow-xl p-4"
+                      type="submit"
+                      onclick="return confirmAdd()"
+                    >
+                      Mark as Completed
+                    </button>
+                  </form>
+                </div>
+              {% endif %}
             </td>
           </tr>
           {% endfor %}
@@ -138,6 +157,10 @@
   </div> 
 </div>
 <script>
+  function confirmAdd() {
+    return confirm("Are you sure?");
+  }
+
   function confirmCancel() {
     return confirm("Are you sure?");
   }

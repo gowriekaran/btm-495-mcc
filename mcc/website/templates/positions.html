@@ -36,7 +36,7 @@
             <tr class="bg-MCC-secondary-tintererer">
               <td class="text-center border border-MCC-primary p-2">{{ position.id }}</td>
               <td class="text-center border border-MCC-primary p-2 min-w-[200px]">{{ position.name }}</td>
-              <td class="text-center border border-MCC-primary p-2 min-w-[200px]">{{ position.description }}</td>
+              <td class="border border-MCC-primary p-2 min-w-[200px]">{{ position.description }}</td>
               <td class="text-center border border-MCC-primary p-2">{{ position.status }}</td>
               <td class="text-center border border-MCC-primary p-2">
                 <div class="flex">
@@ -128,6 +128,7 @@
               placeholder="Enter Position Description"
               rows="4"
               required
+              maxlength="255"
             >{{ position.description }}</textarea>
             {% else %}
             <textarea
@@ -137,6 +138,7 @@
               placeholder="Enter Position Description"
               rows="4"
               required
+              maxlength="255"
             ></textarea>
             {% endif %}
           </div>

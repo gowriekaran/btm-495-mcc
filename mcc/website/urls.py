@@ -17,6 +17,7 @@ urlpatterns = [
     path("applicants/", views.applicants, name='applicants'),
     path("candidates/", views.candidates, name='candidates'),
     path("add_interview/", views.add_interview, name='add_interview'),
+    path("interview_completed/", views.interview_completed, name='interview_completed'),
     path("add_availability/", views.add_availability, name='add_availability'),
     path("select_availability/", views.select_availability, name='select_availability'),
     path("request_more_availability/", views.request_more_availability, name='request_more_availability'),
