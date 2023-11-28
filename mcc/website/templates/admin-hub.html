@@ -6,12 +6,12 @@
     <h2 class="text-center font-bold mb-4">
       Welcome to the MCC Team Management Tool!
     </h2>
-    <div class="grid grid-cols-4 gap-4">
-      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'positions' %}">Manage Positions</a>
-      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'applicants' %}">Manage Applicants</a>
-      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'candidates' %}">Manage Candidates</a>
-      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'interviews' %}">Manage Interviews</a>
-      <a class="text-center shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'offers' %}">Manage Offers</a>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <a class="flex items-center justify-center text-center min-h-[75px] shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'positions' %}">Manage Positions</a>
+      <a class="flex items-center justify-center text-center min-h-[75px] shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'applicants' %}">Manage Applicants</a>
+      <a class="flex items-center justify-center text-center min-h-[75px] shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'candidates' %}">Manage Candidates</a>
+      <a class="flex items-center justify-center text-center min-h-[75px] shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'interviews' %}">Manage Interviews</a>
+      <a class="flex items-center justify-center text-center min-h-[75px] shadow-lg bg-MCC-primary-darker text-white p-2 rounded-md hover:bg-MCC-primary-darkerer" href="{% url 'offers' %}">Manage Offers</a>
     </div>
   </div>
   {% else %}
